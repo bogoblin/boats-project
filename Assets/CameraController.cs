@@ -16,10 +16,10 @@ public class CameraController : MonoBehaviour {
 	void Update () {
 		float angleBetween = Vector3.SignedAngle(this.transform.forward, cameraTarget.transform.forward, Vector3.down);
 		Debug.Log(angleBetween);
-		if (Mathf.Abs(angleBetween) < 0.1f) {
-			angleBetween = 0;
-		}
 		//this.transform.eulerAngles = Vector3.Angle Lerp(this.transform.eulerAngles, cameraTarget.transform.eulerAngles, Time.deltaTime*speed);
 		this.transform.Rotate(0, -angleBetween * Time.deltaTime * speed, 0, Space.World);
+		this.transform.eulerAngles = new Vector3(
+			0, this.transform.eulerAngles.y, 0
+		);
 	}
 }

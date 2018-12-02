@@ -41,7 +41,8 @@ public class SailBehavior : MonoBehaviour {
 		float LiftMagnitude = WindMultiplier * 0.5f * DensityOfAir * ApparentWind.sqrMagnitude * Mathf.Sin(GetSailAngle() - ApparentWindAngle) * Area;
 		Vector3 SailNormal = Quaternion.AngleAxis(GetSailAngle() * Mathf.Rad2Deg, Vector3.up) * Vector3.left;
 		//Debug.Log(SailNormal);
-		SailForceArrow.transform.localScale = 0.001f * new Vector3(LiftMagnitude, LiftMagnitude, LiftMagnitude);
+		float ForceArrowScale = Mathf.Clamp(0.0002f * LiftMagnitude, -1, 1) * 2;
+		SailForceArrow.transform.localScale = ForceArrowScale * Vector3.one;
 		return SailNormal * LiftMagnitude;
 	}
 

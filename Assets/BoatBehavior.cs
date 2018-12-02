@@ -108,8 +108,4 @@ public class BoatBehavior : MonoBehaviour {
 		DoPhysics();
 		return;
 	}
-
-	public void SetNextCheckpoint(Checkpoint nextCheckpoint) {
-		nextCheckpoint.MakeNextCheckpoint();
-	}
 }
