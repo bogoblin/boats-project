@@ -24,8 +24,9 @@ public class SailBehavior : MonoBehaviour {
 	}
 
 	public Vector3 GetApparentWind() {
-		Vector3 AW = GetWind();// - GetVelocity();
-		return new Vector3(AW.x, 0, AW.z);
+		Vector3 AW = GetWind() - GetVelocity();
+		AW = new Vector3(AW.x, 0, AW.z);
+		return Vector3.Lerp(ApparentWind, AW, Time.deltaTime);
 	}
 
 	public float GetSailAngle() {

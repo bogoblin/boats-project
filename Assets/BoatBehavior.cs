@@ -13,7 +13,8 @@ public class BoatBehavior : MonoBehaviour {
 	private float DensityOfWater = 10;
 
 	private Vector3 force = Vector3.zero;
-	private Vector3 velocity = Vector3.zero;
+	private Vector3 velocity = Vector3.zero,
+					prevVelocity = Vector3.zero;
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
 
@@ -55,6 +56,7 @@ public class BoatBehavior : MonoBehaviour {
 		force += Vector3.up * -9.81f;
 		velocity += force * Time.deltaTime;
 		velocity = Vector3.Lerp(velocity, velocity*0.9f, Time.deltaTime);
+		prevVelocity = velocity;
 		angularVelocity = new Vector3(
 			0,
 			Mathf.Lerp(angularVelocity.y, 0, Time.deltaTime),
