@@ -16,13 +16,12 @@ public class BoatBehavior : MonoBehaviour {
 	private Vector3 velocity = Vector3.zero;
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
-	private Vector3 prevPosition, globalVelocity;
 
 	public Vector3 GetLocalVelocity() {
 		return velocity;
 	}
 	public Vector3 GetGlobalVelocity() {
-		return velocity;
+		return Quaternion.Euler(this.transform.eulerAngles) * velocity;
 	}
 	public float GetHeadingAngle() {
 		return this.transform.eulerAngles.y * Mathf.Deg2Rad;
@@ -41,8 +40,6 @@ public class BoatBehavior : MonoBehaviour {
 	void Start () {
 		sailBehavior = Sail.GetComponent<SailBehavior>();
 		rudderBehavior = Rudder.GetComponent<RudderBehavior>();
-		prevPosition = this.transform.position;
-		globalVelocity = Vector3.zero;
 	}
 
 	void AddForce(Vector3 forceToAdd) {
@@ -55,7 +52,6 @@ public class BoatBehavior : MonoBehaviour {
 		return InnerBoat.transform.eulerAngles.z;
 	}
 	void DoPhysics() {
-		prevPosition = this.transform.position;
 		force += Vector3.up * -9.81f;
 		velocity += force * Time.deltaTime;
 		velocity = Vector3.Lerp(velocity, velocity*0.9f, Time.deltaTime);
@@ -68,7 +64,6 @@ public class BoatBehavior : MonoBehaviour {
 		this.transform.Translate(velocity*Time.deltaTime, Space.Self);
 		this.transform.Rotate(0, angularVelocity.y*Time.deltaTime, 0, Space.Self);
 		InnerBoat.transform.Rotate(0, 0, angularVelocity.z*Time.deltaTime, Space.Self);
-		globalVelocity = (this.transform.position - prevPosition)/Time.deltaTime;
 	}
 	
 	// Update is called once per frame
