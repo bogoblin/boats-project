@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoatBehavior : MonoBehaviour {
 
-	public GameObject Sail, Rudder, InnerBoat;
+	public GameObject Sail, Rudder, InnerBoat, cameraPointTo, cameraTarget;
 
 	public float mass, HullSurfaceArea;
 
@@ -70,6 +70,7 @@ public class BoatBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
 		force = Vector3.zero;
 		torque = Vector3.zero;
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
@@ -106,5 +107,9 @@ public class BoatBehavior : MonoBehaviour {
 		AddForce((ForwardLift - BackwardDrag) * Vector3.forward);
 		DoPhysics();
 		return;
+	}
+
+	public void SetNextCheckpoint(Checkpoint nextCheckpoint) {
+		nextCheckpoint.MakeNextCheckpoint();
 	}
 }
