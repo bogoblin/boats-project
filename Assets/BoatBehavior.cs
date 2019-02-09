@@ -6,7 +6,7 @@ public class BoatBehavior : MonoBehaviour {
 
 	public GameObject Sail, Rudder, InnerBoat, cameraPointTo, cameraTarget;
 
-	public float mass, HullSurfaceArea;
+	public float mass, HullSurfaceArea, boatArea;
 
 	private SailBehavior sailBehavior;
 	private RudderBehavior rudderBehavior;
@@ -17,12 +17,14 @@ public class BoatBehavior : MonoBehaviour {
 					prevVelocity = Vector3.zero;
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
+	private Weather weather;
+	public GameObject weatherObject;
 
 	public Vector3 GetLocalVelocity() {
 		return velocity;
 	}
 	public Vector3 GetGlobalVelocity() {
-		return Quaternion.Euler(this.transform.eulerAngles) * velocity;
+		return Quaternion.Euler(this.transform.eulerAngles) * GetLocalVelocity();// + weather.GetWaterVector()*Time.deltaTime;
 	}
 	public float GetHeadingAngle() {
 		return this.transform.eulerAngles.y * Mathf.Deg2Rad;
@@ -33,13 +35,15 @@ public class BoatBehavior : MonoBehaviour {
 			return 0;
 		}
 		else {
-			return (1-this.transform.position.y) * 9.81f;
+			return - this.transform.position.y * boatArea * DensityOfWater * 9.81f;
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
+		weather = weatherObject.GetComponent<Weather>();
 		sailBehavior = Sail.GetComponent<SailBehavior>();
+		sailBehavior.SetWeather(weather);
 		rudderBehavior = Rudder.GetComponent<RudderBehavior>();
 	}
 
@@ -54,7 +58,7 @@ public class BoatBehavior : MonoBehaviour {
 	}
 	void DoPhysics() {
 		force += Vector3.up * -9.81f;
-		velocity += force * Time.deltaTime;
+		velocity += (force / mass) * Time.deltaTime;
 		velocity = Vector3.Lerp(velocity, velocity*0.9f, Time.deltaTime);
 		prevVelocity = velocity;
 		angularVelocity = new Vector3(
@@ -64,6 +68,7 @@ public class BoatBehavior : MonoBehaviour {
 		);
 		angularVelocity += torque * Time.deltaTime;
 		this.transform.Translate(velocity*Time.deltaTime, Space.Self);
+		this.transform.Translate(weather.GetWaterVector()*Time.deltaTime, Space.World);
 		this.transform.Rotate(0, angularVelocity.y*Time.deltaTime, 0, Space.Self);
 		InnerBoat.transform.Rotate(0, 0, angularVelocity.z*Time.deltaTime, Space.Self);
 	}
@@ -99,9 +104,9 @@ public class BoatBehavior : MonoBehaviour {
 		float ForwardLift = Vector3.Dot(this.transform.forward, SailLift);
 		ForwardLift = Mathf.Clamp(ForwardLift, 0, 10000);
 		//Debug.Log(ForwardLift);
-		float BackwardDrag = 0.5f * DensityOfWater * HullSurfaceArea * Time.deltaTime * Mathf.Pow(GetLocalVelocity().magnitude, 2);
+		float BackwardDrag = 0.5f * DensityOfWater * HullSurfaceArea * Mathf.Pow(GetLocalVelocity().magnitude, 2);
 		if (BackwardDrag > ForwardLift) {
-			BackwardDrag = ForwardLift;
+			//BackwardDrag = ForwardLift;
 		}
 		
 		AddForce((ForwardLift - BackwardDrag) * Vector3.forward);

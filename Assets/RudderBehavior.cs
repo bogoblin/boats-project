@@ -22,7 +22,7 @@ public class RudderBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		this.transform.Rotate(Vector3.up, LocalRudderAngle);
-		LocalRudderAngle = Input.GetAxis("Rudder")*30;
+		LocalRudderAngle = Input.GetAxis("Horizontal")*30;
 		this.transform.Rotate(Vector3.up, -LocalRudderAngle);
 	}
 }

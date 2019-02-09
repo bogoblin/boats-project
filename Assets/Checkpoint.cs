@@ -54,7 +54,7 @@ public class Checkpoint : MonoBehaviour {
 			if (bestTime == -1 && !isFirstCheckpoint) { // If no best time is set
 				timeText.text += currentLapTime.ToString("F2") + "s";
 				bestTime = currentLapTime;
-				timeText.color = Color.white;
+				timeText.color = Color.black;
 			} else if (bestTime > 0 && bestTime > currentLapTime) { // If we beat the best time
 				timeText.text += currentLapTime.ToString("F2") + "s (" + (currentLapTime - bestTime).ToString("F2") + "s)";
 				bestTime = currentLapTime;
@@ -67,14 +67,14 @@ public class Checkpoint : MonoBehaviour {
 				timeText.color = Color.red;
 			}
 			if (isFirstCheckpoint) {
-				timeText.color = Color.blue;
-				timeText.text = "GO!";
+				timeText.color = Color.yellow;
+				timeText.text = "Lap Started";
 			}
 			if (startFinish) {
 				currentLapTime = 0;
 			}
 			timeText.CrossFadeAlpha(1, 0, false);
-			timeText.CrossFadeAlpha(0, 3, false);
+			timeText.CrossFadeAlpha(0, 4, false);
 			nextCheckpoint.MakeNextCheckpoint(currentLapTime, lapNumber);
 		}
 	}

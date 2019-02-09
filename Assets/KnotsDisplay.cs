@@ -15,6 +15,6 @@ public class KnotsDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.GetComponent<Text>().text = (Mathf.RoundToInt(boatBehavior.GetLocalVelocity().magnitude * 1.944f)).ToString() + " knots";
+		this.GetComponent<Text>().text = (boatBehavior.GetLocalVelocity().magnitude * 1.944f).ToString("F1") + " knots";
 	}
 }
