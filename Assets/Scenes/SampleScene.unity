@@ -530,19 +530,6 @@ Prefab:
       propertyPath: Target
       value: 
       objectReference: {fileID: 1702478450}
-    - target: {fileID: 33060424794960360, guid: 6eef3bdb1f1d098468e905d2993196c2,
-        type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 4300006, guid: ba6a41dc489914734857bb5924eb70ad, type: 3}
-    - target: {fileID: 4140438175735200, guid: 6eef3bdb1f1d098468e905d2993196c2, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140438175735200, guid: 6eef3bdb1f1d098468e905d2993196c2, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 128
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eef3bdb1f1d098468e905d2993196c2, type: 2}
   m_IsPrefabAsset: 0
@@ -1725,7 +1712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!154 &1046947861
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -2820,6 +2807,10 @@ Prefab:
       propertyPath: weatherObject
       value: 
       objectReference: {fileID: 635517217}
+    - target: {fileID: 1322955320830544, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
+      propertyPath: m_Name
+      value: Main Camera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
   m_IsPrefabAsset: 0
