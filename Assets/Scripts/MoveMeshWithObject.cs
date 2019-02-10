@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveMeshWithObject : MonoBehaviour {
 
 	public GameObject Target;
-	private Vector3 TargetLastPosition;
+	private Vector3 TargetFirstPosition;
 	
 	private MeshFilter ThisMeshFilter;
 	private Mesh ThisMesh;
@@ -18,7 +18,7 @@ public class MoveMeshWithObject : MonoBehaviour {
 		ThisMesh = ThisMeshFilter.mesh;
 		OriginalVertices = new Vector3[ThisMesh.vertices.Length];
 		ThisMesh.vertices.CopyTo(OriginalVertices, 0);
-		TargetLastPosition = Target.transform.position;
+		TargetFirstPosition = Target.transform.position;
 		Scale = transform.localScale.x;
 	}
 	
@@ -26,7 +26,8 @@ public class MoveMeshWithObject : MonoBehaviour {
 	void Update () {
 		Vector3[] vertices = ThisMesh.vertices;
 		for (int i=0; i<vertices.Length; i++) {
-			vertices[i] = OriginalVertices[i] + Target.transform.position/Scale;
+			vertices[i] = OriginalVertices[i] + 
+				(Target.transform.position-TargetFirstPosition)/Scale;
 			vertices[i].y = 0;
 		}
 		ThisMesh.vertices = vertices;

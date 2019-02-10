@@ -20,6 +20,21 @@ public class BoatBehavior : MonoBehaviour {
 	private Weather weather;
 	public GameObject weatherObject;
 
+	[Range(0, 1)]
+	private int controlStyle = 0;
+	// Control Styles:
+	// 0 - Direct
+	// 1 - Indirect
+
+	public void SetControlStyle(int newControlStyle) {
+		if (newControlStyle > 1) return;
+		controlStyle = newControlStyle;
+		PlayerPrefs.SetInt("Control Style", controlStyle);
+	}
+	public int GetControlStyle() {
+		return controlStyle;
+	}
+
 	public Vector3 GetLocalVelocity() {
 		return velocity;
 	}
@@ -111,6 +126,16 @@ public class BoatBehavior : MonoBehaviour {
 		
 		AddForce((ForwardLift - BackwardDrag) * Vector3.forward);
 		DoPhysics();
+		if (transform.position.x > 256) {
+			transform.position -= Vector3.right*512;
+		} else if (transform.position.x < -256) {
+			transform.position += Vector3.right*512;
+		}
+		if (transform.position.z > 256) {
+			transform.position -= Vector3.forward*512;
+		} else if (transform.position.z < -256) {
+			transform.position += Vector3.forward*512;
+		}
 		return;
 	}
 }

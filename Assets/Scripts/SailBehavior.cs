@@ -66,6 +66,16 @@ public class SailBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		switch (boatBehavior.GetControlStyle()) {
+			case 0:
+			controlStyle = ControlStyle.move;
+			break;
+			case 1:
+			controlStyle = ControlStyle.windmove;
+			break;
+			default:
+			break;
+		}
 		switch (controlStyle) {
 			case ControlStyle.automatic:
 			break;

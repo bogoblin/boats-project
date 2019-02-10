@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		
+		Debug.Log(SceneManager.GetActiveScene().name);
 	}
 	
 	// Update is called once per frame
@@ -21,5 +21,11 @@ public class Manager : MonoBehaviour {
 
 	public void Reset() {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+	public void StartSailing() {
+		SceneManager.LoadScene("SampleScene");
+	}
+	public void MainMenu() {
+		SceneManager.LoadScene("MainMenu");
 	}
 }
