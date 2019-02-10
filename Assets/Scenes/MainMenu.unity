@@ -1331,6 +1331,7 @@ GameObject:
   - component: {fileID: 1544308583}
   - component: {fileID: 1544308582}
   - component: {fileID: 1544308581}
+  - component: {fileID: 1544308584}
   m_Layer: 5
   m_Name: Control Style Dropdown
   m_TagString: Untagged
@@ -1458,6 +1459,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1544308579}
   m_CullTransparentMesh: 0
+--- !u!114 &1544308584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1544308579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28583249f3b213a45bb00c662737cbcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1582166149
 GameObject:
   m_ObjectHideFlags: 0

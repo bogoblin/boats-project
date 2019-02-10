@@ -90,6 +90,8 @@ public class BoatBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		controlStyle = PlayerPrefs.GetInt("Control Style", 0);
+
 		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
 		force = Vector3.zero;
 		torque = Vector3.zero;

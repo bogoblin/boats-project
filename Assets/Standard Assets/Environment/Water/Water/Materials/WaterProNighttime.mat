@@ -58,7 +58,7 @@ Material:
     - _Shininess: 200
     - _WaveScale: 0.025
     m_Colors:
-    - WaveSpeed: {r: -6.11108, g: -1.6374592, b: -6.11108, a: -1.6374592}
+    - WaveSpeed: {r: -4.299087, g: -1.151937, b: -4.299087, a: -1.151937}
     - _AnimationDirection: {r: 1, g: 1, b: 1, a: 1}
     - _AnimationTiling: {r: 2.2, g: 2.2, b: -1.1, a: -1.1}
     - _BaseColor: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
