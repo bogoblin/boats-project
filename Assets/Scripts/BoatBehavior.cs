@@ -10,7 +10,8 @@ public class BoatBehavior : MonoBehaviour {
 
 	private SailBehavior sailBehavior;
 	private RudderBehavior rudderBehavior;
-	private float DensityOfWater = 10;
+	private const float DensityOfWater = 10;
+	private const float Gravity = 9.81f;
 
 	private Vector3 force = Vector3.zero;
 	private Vector3 velocity = Vector3.zero,
@@ -45,12 +46,30 @@ public class BoatBehavior : MonoBehaviour {
 		return this.transform.eulerAngles.y * Mathf.Deg2Rad;
 	}
 
-	public float BouyancyAcceleration() {
-		if (this.transform.position.y > 0) {
+	// Dimensions for prism model
+	private static Vector3 prism = new Vector3(1.4f, 0.4f, 4.2f);
+	public float BouyancyForce() 
+	{
+		/* 
+		To simplify the calculation of the buoyant forces on the boat,
+		the boat is modelled as a triangular prism, with an isoceles triangle
+		as the cross-section.
+		*/
+		float width = prism.x; float height = prism.y; float length = prism.z;
+
+		float waterLevel = 0;
+		float bottomOfBoatYCoordinate = this.transform.position.y - prism.y;
+		// Calculate how far the bottom of the hull is underwater
+		float depth = waterLevel - bottomOfBoatYCoordinate;
+
+		if (depth < 0) 
+		{ 	// Boat is not underwater at all
 			return 0;
 		}
-		else {
-			return - this.transform.position.y * boatArea * DensityOfWater * 9.81f;
+		else 
+		{ 	// Boat is underwater
+			float displacedVolume = width * Mathf.Pow(depth, 2) * length / (2 * height);
+			return DensityOfWater * displacedVolume * Gravity;
 		}
 	}
 
@@ -72,9 +91,10 @@ public class BoatBehavior : MonoBehaviour {
 		return InnerBoat.transform.eulerAngles.z;
 	}
 	void DoPhysics() {
-		force += Vector3.up * -9.81f;
+		force += Vector3.up * -9.81f * mass;
 		velocity += (force / mass) * Time.deltaTime;
-		velocity = Vector3.Lerp(velocity, velocity*0.9f, Time.deltaTime);
+		velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime*0.1f);
+		velocity -= Vector3.up * velocity.y * Time.deltaTime;
 		prevVelocity = velocity;
 		angularVelocity = new Vector3(
 			0,
@@ -98,7 +118,7 @@ public class BoatBehavior : MonoBehaviour {
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
 		
 		// Simulate the vertical force from the water on the boat
-		AddForce(Vector3.up * BouyancyAcceleration());
+		AddForce(Vector3.up * BouyancyForce());
 		// Simulate the torque given by the water on the boat
 		if (HeelAngle() > 180) {
 			AddTorque( 10 * Vector3.forward * Mathf.Pow(360-HeelAngle(), 2));
