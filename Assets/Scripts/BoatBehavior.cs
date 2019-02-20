@@ -47,20 +47,29 @@ public class BoatBehavior : MonoBehaviour {
 	}
 
 	// Dimensions for prism model
-	private static Vector3 prism = new Vector3(1.4f, 0.4f, 4.2f);
-	public float BouyancyForce() 
+	const float width = 1.4f; const float height = 0.4f; const float length = 4.2f;
+	public float getDepth()
 	{
 		/* 
 		To simplify the calculation of the buoyant forces on the boat,
 		the boat is modelled as a triangular prism, with an isoceles triangle
 		as the cross-section.
 		*/
-		float width = prism.x; float height = prism.y; float length = prism.z;
-
 		float waterLevel = 0;
-		float bottomOfBoatYCoordinate = this.transform.position.y - prism.y;
+		float bottomOfBoatYCoordinate = this.transform.position.y - height;
 		// Calculate how far the bottom of the hull is underwater
 		float depth = waterLevel - bottomOfBoatYCoordinate;
+		return depth;
+	}
+	public float submergedPrismArea() {
+		float depth = getDepth();
+		// Calculate the area of the front of the submerged prism
+		float area = (width * Mathf.Pow(depth, 2)) / (2 * height);
+		return area;
+	}
+	public float BouyancyForce() 
+	{
+		float depth = getDepth();
 
 		if (depth < 0) 
 		{ 	// Boat is not underwater at all
@@ -68,9 +77,19 @@ public class BoatBehavior : MonoBehaviour {
 		}
 		else 
 		{ 	// Boat is underwater
-			float displacedVolume = width * Mathf.Pow(depth, 2) * length / (2 * height);
+			float displacedVolume = length * submergedPrismArea();
 			return DensityOfWater * displacedVolume * Gravity;
 		}
+	}
+	private const float CoefficientOfDragInWater = 8.0f;
+	public float WaterResistanceForce()
+	{
+		float area = submergedPrismArea();
+		float forwardVelocity = Vector3.Dot(velocity, Vector3.forward);
+		if (forwardVelocity <= 0) return 0;
+
+		float resistance = DensityOfWater * velocity.sqrMagnitude * CoefficientOfDragInWater * area / 2;
+		return resistance;
 	}
 
 	// Use this for initialization
@@ -91,10 +110,9 @@ public class BoatBehavior : MonoBehaviour {
 		return InnerBoat.transform.eulerAngles.z;
 	}
 	void DoPhysics() {
-		force += Vector3.up * -9.81f * mass;
 		velocity += (force / mass) * Time.deltaTime;
-		velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime*0.1f);
-		velocity -= Vector3.up * velocity.y * Time.deltaTime;
+		//velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime*0.1f);
+		//velocity -= Vector3.up * velocity.y * Time.deltaTime;
 		prevVelocity = velocity;
 		angularVelocity = new Vector3(
 			0,
@@ -117,8 +135,11 @@ public class BoatBehavior : MonoBehaviour {
 		torque = Vector3.zero;
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
 		
-		// Simulate the vertical force from the water on the boat
+		// Simulate the vertical force from the water
 		AddForce(Vector3.up * BouyancyForce());
+		// Simulate the vertical force from gravity
+		AddForce(Vector3.down * mass * Gravity);
+
 		// Simulate the torque given by the water on the boat
 		if (HeelAngle() > 180) {
 			AddTorque( 10 * Vector3.forward * Mathf.Pow(360-HeelAngle(), 2));
@@ -139,14 +160,13 @@ public class BoatBehavior : MonoBehaviour {
 
 		// Simulate the forward motion from the sail
 		float ForwardLift = Vector3.Dot(this.transform.forward, SailLift);
-		ForwardLift = Mathf.Clamp(ForwardLift, 0, 10000);
-		//Debug.Log(ForwardLift);
-		float BackwardDrag = 0.5f * DensityOfWater * HullSurfaceArea * Mathf.Pow(GetLocalVelocity().magnitude, 2);
-		if (BackwardDrag > ForwardLift) {
-			//BackwardDrag = ForwardLift;
+		if (ForwardLift > 0) {
+			AddForce(ForwardLift * Vector3.forward);
 		}
-		
-		AddForce((ForwardLift - BackwardDrag) * Vector3.forward);
+
+		float BackwardDrag = WaterResistanceForce();
+		AddForce(BackwardDrag * Vector3.back);
+
 		DoPhysics();
 		if (transform.position.x > 256) {
 			transform.position -= Vector3.right*512;
