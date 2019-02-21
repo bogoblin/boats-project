@@ -11,6 +11,7 @@ public class BoatBehavior : MonoBehaviour {
 	private SailBehavior sailBehavior;
 	private RudderBehavior rudderBehavior;
 	private const float DensityOfWater = 10;
+	private const float DensityOfAir = 1.225f;
 	private const float Gravity = 9.81f;
 
 	private Vector3 force = Vector3.zero;
@@ -70,15 +71,20 @@ public class BoatBehavior : MonoBehaviour {
 	public float BouyancyForce() 
 	{
 		float depth = getDepth();
+		float topArea = width * length;
 
 		if (depth < 0) 
 		{ 	// Boat is not underwater at all
-			return 0;
+			// We add air resistance here that the boat gets from going upwards
+			float airResistance = -topArea * DensityOfAir * Mathf.Pow(velocity.y, 2) / 2;
+			return airResistance;
 		}
 		else 
 		{ 	// Boat is underwater
 			float displacedVolume = length * submergedPrismArea();
-			return DensityOfWater * displacedVolume * Gravity;
+			float buoyancyForce = DensityOfWater * displacedVolume * Gravity * 5;
+			float waterResistance = CoefficientOfDragInWater * topArea * DensityOfWater * Mathf.Pow(velocity.y, 2) / 2;
+			return buoyancyForce + waterResistance;
 		}
 	}
 	private const float CoefficientOfDragInWater = 8.0f;
@@ -91,8 +97,32 @@ public class BoatBehavior : MonoBehaviour {
 		float resistance = DensityOfWater * velocity.sqrMagnitude * CoefficientOfDragInWater * area / 2;
 		return resistance;
 	}
+	public float BuoyancyMoment()
+	// The moment that buoyancy creates clockwise on the z axis
+	{
+		float buoyancyCentre = width * Mathf.Sin(HeelAngle());
+		float distance = -buoyancyCentre * Mathf.Cos(HeelAngle());
+		return mass * Gravity * distance;
+	}
+	public float GravityMoment()
+	// The moment that gravity creates counterclockwise on the z axis
+	{
+		float distance = 0.3f * Mathf.Sin(HeelAngle());
+		return mass * Gravity * distance;
+	}
+	public float WindForceMoment(float thwartshipWind)
+	// The moment that wind force on the sail creates counterclockwise on the z axis
+	{
+		float distance = 0.1f * Mathf.Cos(HeelAngle());
+		return distance * (thwartshipWind 
+		- 0.5f * Mathf.Sign(angularVelocity.z) * Mathf.Pow(angularVelocity.z, 2) * sailBehavior.Area * DensityOfAir); // wind resistance on the sail
+	}
+	public float LateralResistanceMoment(float thwartshipWind)
+	{
+		float distance = -0.05f * Mathf.Cos(HeelAngle());
+		return distance * thwartshipWind;
+	}
 
-	// Use this for initialization
 	void Start () {
 		weather = weatherObject.GetComponent<Weather>();
 		sailBehavior = Sail.GetComponent<SailBehavior>();
@@ -107,23 +137,22 @@ public class BoatBehavior : MonoBehaviour {
 		torque += torqueToAdd;
 	}
 	float HeelAngle() {
-		return InnerBoat.transform.eulerAngles.z;
+		// Return heel angle in radians
+		return InnerBoat.transform.eulerAngles.z * Mathf.Deg2Rad;
 	}
 	void DoPhysics() {
+		// Integrate velocity
 		velocity += (force / mass) * Time.deltaTime;
-		//velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime*0.1f);
-		//velocity -= Vector3.up * velocity.y * Time.deltaTime;
-		prevVelocity = velocity;
-		angularVelocity = new Vector3(
-			0,
-			Mathf.Lerp(angularVelocity.y, 0, Time.deltaTime),
-			Mathf.Lerp(angularVelocity.z, 0, Time.deltaTime)
-		);
-		angularVelocity += torque * Time.deltaTime;
 		this.transform.Translate(velocity*Time.deltaTime, Space.Self);
-		this.transform.Translate(weather.GetWaterVector()*Time.deltaTime, Space.World);
+		
+		// Integrate angular velocity
+		angularVelocity += torque * Time.deltaTime;
 		this.transform.Rotate(0, angularVelocity.y*Time.deltaTime, 0, Space.Self);
 		InnerBoat.transform.Rotate(0, 0, angularVelocity.z*Time.deltaTime, Space.Self);
+
+		// Reset force and torque
+		force = Vector3.zero;
+		torque = Vector3.zero;
 	}
 	
 	// Update is called once per frame
@@ -131,8 +160,7 @@ public class BoatBehavior : MonoBehaviour {
 		controlStyle = PlayerPrefs.GetInt("Control Style", 0);
 
 		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
-		force = Vector3.zero;
-		torque = Vector3.zero;
+		
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
 		
 		// Simulate the vertical force from the water
@@ -141,22 +169,17 @@ public class BoatBehavior : MonoBehaviour {
 		AddForce(Vector3.down * mass * Gravity);
 
 		// Simulate the torque given by the water on the boat
-		if (HeelAngle() > 180) {
-			AddTorque( 10 * Vector3.forward * Mathf.Pow(360-HeelAngle(), 2));
-		} else {
-			AddTorque(-10 * Vector3.forward * Mathf.Pow(HeelAngle(), 2));
-		}
+		AddTorque(BuoyancyMoment() * Vector3.forward);
+		AddTorque(GravityMoment() * Vector3.forward);
 
 		// Simulate the torque from the rudder
 		AddTorque(-Vector3.up * rudderBehavior.GetAngularAcceleration());
 
 		//Simulate the torque from the sail
 		Vector3 SailLift = sailBehavior.GetLift();
-		if (Vector3.Dot(SailLift, -this.transform.right) > 0) {
-			AddTorque(-Vector3.Dot(SailLift, -this.transform.right)*this.transform.forward*0.1f);
-		} else {
-			AddTorque(Vector3.Dot(SailLift, -this.transform.right)*this.transform.forward*0.1f);
-		}
+		float thwartshipWind = Vector3.Dot(SailLift, -this.transform.right);
+		AddTorque(WindForceMoment(thwartshipWind) * Vector3.forward);
+		AddTorque(LateralResistanceMoment(thwartshipWind) * Vector3.forward);
 
 		// Simulate the forward motion from the sail
 		float ForwardLift = Vector3.Dot(this.transform.forward, SailLift);
@@ -164,10 +187,21 @@ public class BoatBehavior : MonoBehaviour {
 			AddForce(ForwardLift * Vector3.forward);
 		}
 
+		// Simulate drag on the boat going forward
 		float BackwardDrag = WaterResistanceForce();
 		AddForce(BackwardDrag * Vector3.back);
 
+		// The boat should move with the current
+		this.transform.Translate(weather.GetWaterVector()*Time.deltaTime, Space.World);
+
+		// Dampen the rotation of the boat
+		AddTorque(
+			-DensityOfWater * angularVelocity.y * Vector3.up * 0.1f
+		);
+
 		DoPhysics();
+
+		// Wrap position of boat
 		if (transform.position.x > 256) {
 			transform.position -= Vector3.right*512;
 		} else if (transform.position.x < -256) {
