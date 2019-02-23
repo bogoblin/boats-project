@@ -396,6 +396,20 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114273715587495374, guid: 807d94b599066ba43803daf56eec2a84,
+        type: 2}
+      propertyPath: cameraMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307489011787974, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23901152058757586, guid: 807d94b599066ba43803daf56eec2a84,
+        type: 2}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
   m_IsPrefabAsset: 0
@@ -598,7 +612,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 70415218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.428, z: 1.261}
+  m_LocalPosition: {x: -0.053, y: 0.35, z: 1.261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1660325869}
@@ -1184,9 +1198,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 2
+    m_Bias: 0
     m_NormalBias: 3
-    m_NearPlane: 0.1
+    m_NearPlane: 3.77
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
@@ -4004,7 +4018,7 @@ LineRenderer:
   - {x: -0.81, y: 3.5, z: 0.21}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.02
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4068,8 +4082,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   end: {fileID: 70415218}
-  segments: 2
-  totalRopeLength: 10
+  boat: {fileID: 1702478450}
+  boatBehavior: {fileID: 0}
+  segments: 20
 --- !u!1 &1627455711
 GameObject:
   m_ObjectHideFlags: 0
