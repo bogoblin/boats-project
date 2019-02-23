@@ -17,7 +17,7 @@ public class SailBehavior : MonoBehaviour {
 	private BoatBehavior boatBehavior;
 	public float Area;
 	private Weather weather;
-	private float SailPull = 0;
+	[HideInInspector] public float SailPull = 0;
 	private float sailVelocity = 0;
 
 	public Vector3 GetWind() {

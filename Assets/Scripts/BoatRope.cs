@@ -5,46 +5,52 @@ using UnityEngine;
 public class BoatRope : MonoBehaviour {
 
 	private LineRenderer line;
-	public GameObject end;
+	public GameObject end, boat;
+	[HideInInspector] public BoatBehavior boatBehavior;
 	public int segments = 2;
-	public float totalRopeLength = 2;
+	private float totalRopeLength;
+	Vector3 ropeStart, ropeEnd;
 
 	float Cosh(float x) {
 		return (Mathf.Exp(x) + Mathf.Exp(-x)) / 2;
 	}
 
-	// Use this for initialization
 	void Start () {
+		Vector3 ropeStart = this.transform.position;
+		Vector3 ropeEnd = end.transform.position;
+		
+		boatBehavior = boat.GetComponent<BoatBehavior>();
 		line = this.GetComponent<LineRenderer>();
-		line.positionCount = 2;//;= segments;
+		line.positionCount = segments + 1; // Include last point
+		totalRopeLength = Vector3.Distance(ropeStart, ropeEnd);
 	}
-	
-	// Update is called once per frame
 	void Update () {
 		Vector3 ropeStart = this.transform.position;
 		Vector3 ropeEnd = end.transform.position;
-		// float sailPull = 1 - Input.GetAxis("Pull");
-		// float ropeLength = sailPull * totalRopeLength;
-		// float distance = Vector3.Distance(ropeStart, ropeEnd);
-		// float power;
-		// if (ropeLength > distance) {
-		// 	power = ropeLength / distance;
-		// 	Debug.Log(power);
-		// } else {
-		// 	power = 1;
-		// }
-		// for (int i = 0; i < segments; i++) {
-		// 	float fraction = (float)i/(float)(segments-1);
-		// 	Vector3 segPosition = Vector3.Lerp(ropeStart, ropeEnd, fraction);
-		// 	segPosition = new Vector3(
-		// 		Mathf.Lerp(ropeStart.x, ropeEnd.x, fraction),
-		// 		Mathf.Lerp(ropeStart.y, ropeEnd.y, Mathf.Pow(fraction, power)),
-		// 		Mathf.Lerp(ropeStart.z, ropeEnd.z, fraction)
-		// 	);
+		float sailPull = boatBehavior.sailBehavior.SailPull;
 
-		// 	line.SetPosition(i, segPosition);
-		// }
-		line.SetPosition(0, ropeEnd);
-		line.SetPosition(1, ropeStart);
+		float ropeLength = (1-sailPull*0.6f) * totalRopeLength;
+		float distance = Vector3.Distance(ropeStart, ropeEnd);
+		float tightness = (distance / ropeLength) * 10;
+
+
+
+		for (int i = 0; i <= segments; i++) {
+			float fraction = (float)i/(float)(segments);
+			float x = fraction;
+			float a = tightness;
+
+			// Modelling the rope using a catenary.
+			// this expression returns a number between 0 and 1 for 0 <= x <= 1
+			// The curve is tighter if a is higher
+			float yFraction = (Cosh(x/a)-1) / (Cosh(1/a)-1);
+			Vector3 segPosition = new Vector3(
+				Mathf.Lerp(ropeStart.x, ropeEnd.x, fraction),
+				Mathf.Lerp(ropeStart.y, ropeEnd.y, yFraction),
+				Mathf.Lerp(ropeStart.z, ropeEnd.z, fraction)
+			);
+
+			line.SetPosition(i, segPosition);
+		}
 	}
 }

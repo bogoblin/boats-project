@@ -8,7 +8,7 @@ public class BoatBehavior : MonoBehaviour {
 
 	public float mass, HullSurfaceArea, boatArea;
 
-	private SailBehavior sailBehavior;
+	[HideInInspector] public SailBehavior sailBehavior;
 	private RudderBehavior rudderBehavior;
 	private const float DensityOfWater = 10;
 	private const float DensityOfAir = 1.225f;
@@ -22,8 +22,7 @@ public class BoatBehavior : MonoBehaviour {
 	private Weather weather;
 	public GameObject weatherObject;
 
-	[Range(0, 1)]
-	private int controlStyle = 0;
+	[Range(0, 1)] private int controlStyle = 0;
 	// Control Styles:
 	// 0 - Direct
 	// 1 - Indirect
