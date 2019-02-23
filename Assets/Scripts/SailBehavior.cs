@@ -18,6 +18,7 @@ public class SailBehavior : MonoBehaviour {
 	public float Area;
 	private Weather weather;
 	private float SailPull = 0;
+	private float sailVelocity = 0;
 
 	public Vector3 GetWind() {
 		return weather.GetWindVector();
@@ -81,15 +82,31 @@ public class SailBehavior : MonoBehaviour {
 			break;
 
 			case ControlStyle.windmove:
-			float SailTorque = GetLiftMagnitude()*0.1f;
+			float SailTorque = GetLiftMagnitude();
+			float difference = 0;
 			SailPull = Mathf.Lerp(SailPull, Mathf.Clamp(Input.GetAxis("Pull"), 0, 1), Time.deltaTime*10); 
-			LocalSailAngle -= SailTorque*Time.deltaTime;
-			LocalSailAngle = Mathf.Clamp(LocalSailAngle, -90, 90);
+			// int numMoves = 0;
+			// float newSailPull = Mathf.Clamp(Input.GetAxis("Pull"), 0, 1);
+			// if (Mathf.Abs(newSailPull - SailPull) > 0.01f) {
+			// 	numMoves = 30;
+			// }
+			// if (numMoves > 0) {
+			// 	if (newSailPull > SailPull) {
+			// 		SailPull += Time.deltaTime;
+			// 	} else if (newSailPull < SailPull) {
+			// 		SailPull -= Time.deltaTime;
+			// 	}
+			// 	numMoves--;
+			// }
+			
 			if (LocalSailAngle > 0) {
-				LocalSailAngle = Mathf.Clamp(LocalSailAngle, -90, (1-SailPull)*90);
+				difference = LocalSailAngle - Mathf.Clamp(LocalSailAngle, -90, (1-SailPull)*90);
 			} else {
-				LocalSailAngle = Mathf.Clamp(LocalSailAngle, -(1-SailPull)*90, 90);
+				difference = LocalSailAngle - Mathf.Clamp(LocalSailAngle, -(1-SailPull)*90, 90);
 			}
+			sailVelocity = - difference - SailTorque;
+			LocalSailAngle += sailVelocity*Time.deltaTime;
+			LocalSailAngle = Mathf.Clamp(LocalSailAngle, -(1-SailPull)*90, (1-SailPull)*90);
 			break;
 
 			case ControlStyle.move:
