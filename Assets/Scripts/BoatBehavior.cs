@@ -15,25 +15,19 @@ public class BoatBehavior : MonoBehaviour {
 	private const float Gravity = 9.81f;
 
 	private Vector3 force = Vector3.zero;
-	private Vector3 velocity = Vector3.zero,
-					prevVelocity = Vector3.zero;
+	private Vector3 velocity = Vector3.zero;
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
 	private Weather weather;
 	public GameObject weatherObject;
 
-	[Range(0, 1)] private int controlStyle = 0;
-	// Control Styles:
-	// 0 - Direct
-	// 1 - Indirect
-
-	public void SetControlStyle(int newControlStyle) {
-		if (newControlStyle > 1) return;
-		controlStyle = newControlStyle;
-		PlayerPrefs.SetInt("Control Style", controlStyle);
-	}
-	public int GetControlStyle() {
-		return controlStyle;
+	public string controlStyle {
+		get {
+			return PlayerPrefs.GetString("Control Style", "Indirect");
+		}
+		set {
+			PlayerPrefs.SetString("Control Style", controlStyle);
+		}
 	}
 
 	public Vector3 GetLocalVelocity() {
@@ -156,7 +150,7 @@ public class BoatBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		controlStyle = PlayerPrefs.GetInt("Control Style", 0);
+		controlStyle = PlayerPrefs.GetString("Control Style", "Indirect");
 
 		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
 		
@@ -173,6 +167,7 @@ public class BoatBehavior : MonoBehaviour {
 
 		// Simulate the torque from the rudder
 		AddTorque(-Vector3.up * rudderBehavior.GetAngularAcceleration());
+		AddTorque(Vector3.forward * rudderBehavior.GetAngularAcceleration() * 2);
 
 		//Simulate the torque from the sail
 		Vector3 SailLift = sailBehavior.GetLift();

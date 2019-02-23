@@ -10,7 +10,10 @@ public class ControlStyleDropdown : MonoBehaviour {
 
 	void Start () {
 		// Initialise the dropdown value to be the saved control style
-		this.GetComponent<Dropdown>().value = PlayerPrefs.GetInt("Control Style");
+		switch(PlayerPrefs.GetString("Control Style")) {
+			case "Direct"  : this.GetComponent<Dropdown>().value = 0; break;
+			case "Indirect": this.GetComponent<Dropdown>().value = 1; break;
+		}
 	}
 	
 	void Update () {

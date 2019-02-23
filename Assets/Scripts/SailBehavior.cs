@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SailBehavior : MonoBehaviour {
-	private enum ControlStyle {
-		automatic, move, windmove
-	}
-	private ControlStyle controlStyle = ControlStyle.windmove;
 
 	private float LocalSailAngle = 0; // The angle of the sail, in degrees
 	private float DensityOfAir = 1.225f;
@@ -67,21 +63,11 @@ public class SailBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		switch (boatBehavior.GetControlStyle()) {
-			case 0:
-			controlStyle = ControlStyle.move;
+		switch (boatBehavior.controlStyle) {
+			case "Direct":
+			LocalSailAngle -= Input.GetAxis("Sail");
 			break;
-			case 1:
-			controlStyle = ControlStyle.windmove;
-			break;
-			default:
-			break;
-		}
-		switch (controlStyle) {
-			case ControlStyle.automatic:
-			break;
-
-			case ControlStyle.windmove:
+			case "Indirect":
 			float SailTorque = GetLiftMagnitude();
 			float difference = 0;
 			SailPull = Mathf.Lerp(SailPull, Mathf.Clamp(Input.GetAxis("Pull"), 0, 1), Time.deltaTime*10); 
@@ -108,17 +94,10 @@ public class SailBehavior : MonoBehaviour {
 			LocalSailAngle += sailVelocity*Time.deltaTime;
 			LocalSailAngle = Mathf.Clamp(LocalSailAngle, -(1-SailPull)*90, (1-SailPull)*90);
 			break;
-
-			case ControlStyle.move:
-			LocalSailAngle -= Input.GetAxis("Sail");
-			break;
-
 			default:
 			break;
 		}
 		LocalSailAngle = Mathf.Clamp(LocalSailAngle, -90, 90);
-		this.transform.localRotation = Quaternion.AngleAxis(LocalSailAngle, Vector3.up);
-		
-		//Debug.Log(GetLift());
+		transform.localRotation = Quaternion.AngleAxis(LocalSailAngle, Vector3.up);
 	}
 }
