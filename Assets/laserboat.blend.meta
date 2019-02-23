@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: dfed3b23e4ee2d048b18b1a57b661e41
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Cylinder
+    100002: Empty
+    100004: Empty_001
+    100006: Field
+    100008: //RootNode
+    100010: Plane
+    100012: Plane_001
+    100014: Plane_002
+    100016: Plane_003
+    100018: Plane_004
+    100020: Hull
+    100022: Keel
+    100024: Mast_and_Sail
+    100026: Rudder
+    100028: Sail
+    100030: Mast_and_Boom
+    100032: Sail_001
+    100034: Sail_002
+    400000: Cylinder
+    400002: Empty
+    400004: Empty_001
+    400006: Field
+    400008: //RootNode
+    400010: Plane
+    400012: Plane_001
+    400014: Plane_002
+    400016: Plane_003
+    400018: Plane_004
+    400020: Hull
+    400022: Keel
+    400024: Mast_and_Sail
+    400026: Rudder
+    400028: Sail
+    400030: Mast_and_Boom
+    400032: Sail_001
+    400034: Sail_002
+    2100000: unnamed
+    2100002: Material_004
+    2100004: Material_006
+    2100006: Material_001
+    2300000: Cylinder
+    2300002: Plane
+    2300004: Plane_001
+    2300006: Plane_002
+    2300008: Plane_003
+    2300010: Plane_004
+    2300012: Hull
+    2300014: Keel
+    2300016: Mast_and_Sail
+    2300018: Rudder
+    2300020: Sail
+    2300022: Mast_and_Boom
+    2300024: Sail_001
+    2300026: Sail_002
+    3300000: Cylinder
+    3300002: Plane
+    3300004: Plane_001
+    3300006: Plane_002
+    3300008: Plane_003
+    3300010: Plane_004
+    3300012: Hull
+    3300014: Keel
+    3300016: Mast_and_Sail
+    3300018: Rudder
+    3300020: Sail
+    3300022: Mast_and_Boom
+    3300024: Sail_001
+    3300026: Sail_002
+    4300000: Plane_004
+    4300002: Cylinder
+    4300004: Plane_003
+    4300006: Plane_002
+    4300008: Plane_001
+    4300010: Plane
+    4300012: Sail
+    4300014: Mast_and_Sail
+    4300016: Keel
+    4300018: Rudder
+    4300020: Hull
+    4300022: Mast_and_Boom
+    4300024: Sail_001
+    4300026: Sail_002
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
