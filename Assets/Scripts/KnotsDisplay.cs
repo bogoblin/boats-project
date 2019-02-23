@@ -15,6 +15,8 @@ public class KnotsDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.GetComponent<Text>().text = (boatBehavior.GetLocalVelocity().magnitude * 1.944f).ToString("F1") + " knots";
+		Vector3 boatVelocity = boatBehavior.GetLocalVelocity();
+		Vector3 velocityOnXZPlane = boatVelocity - Vector3.up * boatVelocity.y;
+		this.GetComponent<Text>().text = (velocityOnXZPlane.magnitude * 1.944f).ToString("F1") + " knots";
 	}
 }
