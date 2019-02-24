@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TextReadWeatherSpeed : MonoBehaviour {
-	public GameObject weatherWrapper;
 	private Weather weather;
 	public enum WhichElement {
 		wind,
@@ -17,7 +16,7 @@ public class TextReadWeatherSpeed : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		text = this.GetComponent<Text>();
-		weather = weatherWrapper.GetComponent<Weather>();
+		weather = Weather.Instance;
 	}
 	
 	// Update is called once per frame

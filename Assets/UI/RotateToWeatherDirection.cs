@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RotateToWeatherDirection : MonoBehaviour {
-
-	public GameObject weatherWrapper;
 	private Weather weather;
 	public enum WhichElement {
 		wind,
@@ -14,7 +12,7 @@ public class RotateToWeatherDirection : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		weather = weatherWrapper.GetComponent<Weather>();
+		weather = Weather.Instance;
 	}
 	
 	// Update is called once per frame

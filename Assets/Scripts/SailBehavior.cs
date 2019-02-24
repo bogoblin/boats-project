@@ -39,10 +39,6 @@ public class SailBehavior : MonoBehaviour {
 		return 0.5f * DensityOfAir * ApparentWind.sqrMagnitude * Mathf.Sin(GetSailAngle() - ApparentWindAngle) * Area;
 	}
 
-	public void SetWeather(Weather w) {
-		weather = w;
-	}
-
 	public Vector3 GetLift() {
 		// Lift = 1/2 * rho * v * v * a
 		ApparentWind = GetApparentWind();
@@ -59,6 +55,7 @@ public class SailBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		boatBehavior = Ship.GetComponent<BoatBehavior>();
+		weather = Weather.Instance;
 	}
 	
 	// Update is called once per frame

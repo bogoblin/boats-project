@@ -5,6 +5,19 @@ using UnityEngine;
 public class Weather : MonoBehaviour {
 
 	public GameObject water;
+	private static Weather _instance;
+	public static Weather Instance {get {return _instance;}}
+
+	private void Awake() {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        } else {
+            _instance = this;
+        }
+    }
+	// Singleton implementation by PearsonArtPhoto on StackExchange
+	// https://gamedev.stackexchange.com/questions/116009/in-unity-how-do-i-correctly-implement-the-singleton-pattern
 
 	public float WindSpeed, // Speed of the wind, in m/s
 				 WindAngle; // Angle of the wind, in degrees

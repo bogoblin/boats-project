@@ -24,7 +24,6 @@ public class BoatBehavior : MonoBehaviour {
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
 	private Weather weather;
-	public GameObject weatherObject;
 
 	public string controlStyle {
 		get {
@@ -122,9 +121,8 @@ public class BoatBehavior : MonoBehaviour {
 	}
 
 	void Start () {
-		weather = weatherObject.GetComponent<Weather>();
+		weather = Weather.Instance;
 		sailBehavior = Sail.GetComponent<SailBehavior>();
-		sailBehavior.SetWeather(weather);
 		rudderBehavior = Rudder.GetComponent<RudderBehavior>();
 	}
 
