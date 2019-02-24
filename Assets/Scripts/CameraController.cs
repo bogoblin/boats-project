@@ -18,6 +18,12 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	void Update () {
+		if (Input.GetButtonDown("Change Camera")) {
+			switch(cameraMode) {
+				case CameraMode.Checkpoint: cameraMode = CameraMode.Behind; break;
+				case CameraMode.Behind: cameraMode = CameraMode.Checkpoint; break;
+			}
+		}
 		// Keep camera y position the same
 		Vector3 correctPosition = new Vector3(
 			transform.position.x,
@@ -29,9 +35,10 @@ public class CameraController : MonoBehaviour {
 			transform.rotation
 		);
 
+		float angleBetween;
 		switch (cameraMode) {
 			case CameraMode.Checkpoint:
-			float angleBetween = Vector3.SignedAngle(transform.forward, cameraTarget.transform.forward, Vector3.down);
+			angleBetween = Vector3.SignedAngle(transform.forward, cameraTarget.transform.forward, Vector3.down);
 			transform.Rotate(0, -angleBetween * Time.deltaTime * speed, 0, Space.World);
 			transform.eulerAngles = new Vector3(
 				0, transform.eulerAngles.y, 0
