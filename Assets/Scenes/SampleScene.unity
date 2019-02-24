@@ -4815,7 +4815,8 @@ Prefab:
       propertyPath: cameraPointTo
       value: 
       objectReference: {fileID: 2134044410}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114147065831782122, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1764028573
@@ -6091,3 +6092,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1056093218941074, guid: 807d94b599066ba43803daf56eec2a84,
     type: 2}
   m_PrefabInternal: {fileID: 1758613176}
+--- !u!1 &2134617931 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1272967880631336, guid: 807d94b599066ba43803daf56eec2a84,
+    type: 2}
+  m_PrefabInternal: {fileID: 1758613176}
+--- !u!114 &2134617932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2134617931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b4fd5869b98e045bf31a1350a88fa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
