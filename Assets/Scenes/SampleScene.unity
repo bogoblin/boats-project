@@ -1817,6 +1817,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4452892110320866, guid: e29dfc7455513b44d8683b4a75141c8d, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452892110320866, guid: e29dfc7455513b44d8683b4a75141c8d, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 4096
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e29dfc7455513b44d8683b4a75141c8d, type: 2}
   m_IsPrefabAsset: 0
@@ -4750,7 +4758,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4267132718340228, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 34.22
+      value: 22.55
       objectReference: {fileID: 0}
     - target: {fileID: 4267132718340228, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4758,7 +4766,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4267132718340228, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 70.72
+      value: 14.7
       objectReference: {fileID: 0}
     - target: {fileID: 4267132718340228, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
       propertyPath: m_LocalRotation.x
@@ -5958,6 +5966,21 @@ Prefab:
       propertyPath: water
       value: 
       objectReference: {fileID: 1904029639}
+    - target: {fileID: 114888969407879180, guid: ea1fd25a512b18c42863b35758940ffe,
+        type: 2}
+      propertyPath: WindSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114888969407879180, guid: ea1fd25a512b18c42863b35758940ffe,
+        type: 2}
+      propertyPath: WindAngle
+      value: 3.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 114888969407879180, guid: ea1fd25a512b18c42863b35758940ffe,
+        type: 2}
+      propertyPath: WaterSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea1fd25a512b18c42863b35758940ffe, type: 2}
   m_IsPrefabAsset: 0
@@ -6108,3 +6131,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b4fd5869b98e045bf31a1350a88fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1292003320}

@@ -19,8 +19,8 @@ public class Weather : MonoBehaviour {
 	// Singleton implementation by PearsonArtPhoto on StackExchange
 	// https://gamedev.stackexchange.com/questions/116009/in-unity-how-do-i-correctly-implement-the-singleton-pattern
 
-	public float WindSpeed, // Speed of the wind, in m/s
-				 WindAngle; // Angle of the wind, in degrees
+	public float WindSpeed; // Speed of the wind, in m/s
+	public float WindAngle; // Angle of the wind, in degrees
 
 	public void SetWindSpeed(float speed) {
 		WindSpeed = speed;
@@ -34,8 +34,8 @@ public class Weather : MonoBehaviour {
 	public float GetWindSpeed() {
 		return WindSpeed;
 	}
-	public float WaterSpeed, // Speed of the water, in m/s
-				 WaterAngle; // Angle of the water, in degrees
+	public float WaterSpeed; // Speed of the water, in m/s
+	public float WaterAngle; // Angle of the water, in degrees
 
 	public void SetWaterSpeed(float speed) {
 		WaterSpeed = speed;
