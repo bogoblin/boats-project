@@ -5,6 +5,11 @@ using UnityEngine;
 public class BoatBehavior : MonoBehaviour {
 
 	public GameObject Sail, Rudder, InnerBoat, cameraPointTo, cameraTarget;
+	public IBoatController controller {
+		get {
+			return GetComponent<IBoatController>();
+		}
+	}
 
 	public float mass, HullSurfaceArea, boatArea;
 

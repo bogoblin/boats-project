@@ -647,6 +647,20 @@ Prefab:
       propertyPath: weatherObject
       value: 
       objectReference: {fileID: 635517217}
+    - target: {fileID: 20577890783965296, guid: 807d94b599066ba43803daf56eec2a84,
+        type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1335
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083761580642410, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 199062404410268182, guid: 807d94b599066ba43803daf56eec2a84,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -605
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807d94b599066ba43803daf56eec2a84, type: 2}
   m_IsPrefabAsset: 0
@@ -947,13 +961,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 557172457}
-  m_LocalRotation: {x: 0.80934, y: 0.09518681, z: 0.14114924, w: 0.5621256}
+  m_LocalRotation: {x: 0.7413219, y: -0.18593922, z: -0.5556318, w: 0.3273251}
   m_LocalPosition: {x: 16.27298, y: 269, z: 153.6529}
   m_LocalScale: {x: 6.6953, y: 1.4476, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 117.98999, y: -45.63098, z: -41.791992}
+  m_LocalEulerAnglesHint: {x: 163.819, y: 79.909, z: 41.743988}
 --- !u!1 &587155122
 GameObject:
   m_ObjectHideFlags: 0

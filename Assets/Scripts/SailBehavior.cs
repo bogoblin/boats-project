@@ -65,12 +65,12 @@ public class SailBehavior : MonoBehaviour {
 	void Update () {
 		switch (boatBehavior.controlStyle) {
 			case "Direct":
-			LocalSailAngle -= Input.GetAxis("Sail");
+			LocalSailAngle -= boatBehavior.controller.GetSailTurn();
 			break;
 			case "Indirect":
 			float SailTorque = GetLiftMagnitude();
 			float difference = 0;
-			SailPull = Mathf.Lerp(SailPull, Mathf.Clamp(Input.GetAxis("Pull"), 0, 1), Time.deltaTime*10); 
+			SailPull = Mathf.Lerp(SailPull, Mathf.Clamp(boatBehavior.controller.GetSailPull(), 0, 1), Time.deltaTime*10); 
 			// int numMoves = 0;
 			// float newSailPull = Mathf.Clamp(Input.GetAxis("Pull"), 0, 1);
 			// if (Mathf.Abs(newSailPull - SailPull) > 0.01f) {
