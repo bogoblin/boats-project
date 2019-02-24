@@ -155,12 +155,12 @@ public class BoatBehavior : MonoBehaviour {
 		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
 		
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
-		
+		/*
 		// Simulate the vertical force from the water
 		AddForce(Vector3.up * BouyancyForce());
 		// Simulate the vertical force from gravity
 		AddForce(Vector3.down * mass * Gravity);
-
+		*/
 		// Simulate the torque given by the water on the boat
 		AddTorque(BuoyancyMoment() * Vector3.forward);
 		AddTorque(GravityMoment() * Vector3.forward);
