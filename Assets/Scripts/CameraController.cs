@@ -42,7 +42,11 @@ public class CameraController : MonoBehaviour {
 			);
 			break;
 			case CameraMode.Behind:
-			transform.localEulerAngles = Vector3.zero;
+			transform.localRotation = Quaternion.Slerp(
+				transform.localRotation,
+				Quaternion.identity,
+				Time.deltaTime
+			);
 			break;
 			default:
 			break;
