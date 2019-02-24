@@ -17,6 +17,6 @@ public class KnotsDisplay : MonoBehaviour {
 	void Update () {
 		Vector3 boatVelocity = boatBehavior.GetLocalVelocity();
 		Vector3 velocityOnXZPlane = boatVelocity - Vector3.up * boatVelocity.y;
-		this.GetComponent<Text>().text = (velocityOnXZPlane.magnitude * 1.944f).ToString("F1") + " knots";
+		this.GetComponent<Text>().text = (velocityOnXZPlane.magnitude * 1.944f).ToString("F1");// + " knots";
 	}
 }
