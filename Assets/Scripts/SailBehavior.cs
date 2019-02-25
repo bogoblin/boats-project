@@ -7,8 +7,6 @@ public class SailBehavior : MonoBehaviour {
 	private float LocalSailAngle = 0; // The angle of the sail, in degrees
 	private float DensityOfAir = 1.225f;
 
-	private Vector3 ApparentWind;
-
 	public GameObject Ship, ApparentWindArrow, SailForceArrow;
 	private BoatBehavior boatBehavior;
 	public float Area;
@@ -24,42 +22,45 @@ public class SailBehavior : MonoBehaviour {
 		return boatBehavior.GetGlobalVelocity();
 	}
 
+	/// <summary>
+	/// Returns the wind relative to the boat's movement.
+	/// </summary>
 	public Vector3 GetApparentWind() {
-		Vector3 AW = GetWind() - GetVelocity();
-		AW = new Vector3(AW.x, 0, AW.z);
-		return Vector3.Lerp(ApparentWind, AW, 0.2f);
+		return GetWind() - GetVelocity();
 	}
-
+	public float GetApparentWindAngle() {
+		return Vector3.SignedAngle(GetApparentWind(), Vector3.forward, Vector3.up) 
+			* Mathf.Deg2Rad;
+	}
 	public float GetSailAngle() {
-		return this.transform.eulerAngles.y*Mathf.Deg2Rad;
+		return this.transform.eulerAngles.y
+			* Mathf.Deg2Rad;
 	}
-
 	public float GetLiftMagnitude() {
-		float ApparentWindAngle = Mathf.Atan2(ApparentWind.x, ApparentWind.z);
-		return 0.5f * DensityOfAir * ApparentWind.sqrMagnitude * Mathf.Sin(GetSailAngle() - ApparentWindAngle) * Area;
+		return 0.5f * DensityOfAir * GetApparentWind().sqrMagnitude 
+			* Mathf.Sin(GetApparentWindAngle() - GetSailAngle()) * Area;
 	}
-
 	public Vector3 GetLift() {
 		// Lift = 1/2 * rho * v * v * a
-		ApparentWind = GetApparentWind();
-		float ApparentWindAngle = Mathf.Atan2(ApparentWind.x, ApparentWind.z);
-		ApparentWindArrow.transform.eulerAngles = new Vector3(0, ApparentWindAngle * Mathf.Rad2Deg, 0);
-		float LiftMagnitude = GetLiftMagnitude();
-		Vector3 SailNormal = Quaternion.AngleAxis(GetSailAngle() * Mathf.Rad2Deg, Vector3.up) * Vector3.left;
-		//Debug.Log(SailNormal);
-		float ForceArrowScale = Mathf.Clamp(0.0002f * LiftMagnitude, -1, 1) * 2;
+		Vector3 SailNormal = transform.right;
+		Debug.Log(GetLiftMagnitude());
+
+		// TODO: refactor this
+		ApparentWindArrow.transform.eulerAngles = new Vector3(0, GetApparentWindAngle() * Mathf.Rad2Deg, 0);
+		float ForceArrowScale = Mathf.Clamp(0.0002f * GetLiftMagnitude(), -1, 1) * 2;
 		SailForceArrow.transform.localScale = ForceArrowScale * Vector3.one;
-		return SailNormal * LiftMagnitude;
+
+
+		return SailNormal * GetLiftMagnitude();
 	}
 
-	// Use this for initialization
 	void Start () {
 		boatBehavior = Ship.GetComponent<BoatBehavior>();
 		weather = Weather.Instance;
 	}
 	
-	// Update is called once per frame
 	void Update () {
+		Debug.Log(boatBehavior.controlStyle);
 		switch (boatBehavior.controlStyle) {
 			case "Direct":
 			LocalSailAngle -= boatBehavior.controller.GetSailTurn();
@@ -68,20 +69,7 @@ public class SailBehavior : MonoBehaviour {
 			float SailTorque = GetLiftMagnitude();
 			float difference = 0;
 			SailPull = Mathf.Lerp(SailPull, Mathf.Clamp(boatBehavior.controller.GetSailPull(), 0, 1), Time.deltaTime*10); 
-			// int numMoves = 0;
-			// float newSailPull = Mathf.Clamp(Input.GetAxis("Pull"), 0, 1);
-			// if (Mathf.Abs(newSailPull - SailPull) > 0.01f) {
-			// 	numMoves = 30;
-			// }
-			// if (numMoves > 0) {
-			// 	if (newSailPull > SailPull) {
-			// 		SailPull += Time.deltaTime;
-			// 	} else if (newSailPull < SailPull) {
-			// 		SailPull -= Time.deltaTime;
-			// 	}
-			// 	numMoves--;
-			// }
-			
+			Debug.Log(SailPull);
 			if (LocalSailAngle > 0) {
 				difference = LocalSailAngle - Mathf.Clamp(LocalSailAngle, -90, (1-SailPull)*90);
 			} else {
