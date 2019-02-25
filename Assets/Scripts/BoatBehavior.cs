@@ -30,7 +30,7 @@ public class BoatBehavior : MonoBehaviour {
 			return PlayerPrefs.GetString("Control Style", "Indirect");
 		}
 		set {
-			PlayerPrefs.SetString("Control Style", controlStyle);
+			PlayerPrefs.SetString("Control Style", value);
 		}
 	}
 

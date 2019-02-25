@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ControlStyleDropdown : MonoBehaviour {
+public class ControlStyleDropdown : Dropdown {
 	// This behavior ensures that the control style dropdown menu always displays the correct tooltip
 
 	public GameObject[] Tooltips;
+	private string[] ControlStyles = {"Direct", "Indirect"};
 
 	void Start () {
 		// Initialise the dropdown value to be the saved control style
-		switch(PlayerPrefs.GetString("Control Style")) {
-			case "Direct"  : this.GetComponent<Dropdown>().value = 0; break;
-			case "Indirect": this.GetComponent<Dropdown>().value = 1; break;
+		string ControlStyle = PlayerPrefs.GetString("Control Style", ControlStyles[0]);
+		for (int i=0; i<ControlStyles.Length; i++) {
+			if (ControlStyles[i] == ControlStyle) {
+				OnValueChanged(i);
+			}
 		}
 	}
 	
-	void Update () {
+	public void OnValueChanged (int newValue) {
+		Debug.Log("adsfasdf");
 		for (int i=0; i<Tooltips.Length; i++) {
 			// Show the tooltip if it is the correct one to show, otherwise hide it
-			bool show = (this.GetComponent<Dropdown>().value == i);
+			bool show = (newValue == i);
 			Tooltips[i].SetActive(show);
 		}
+		PlayerPrefs.SetString("Control Style", ControlStyles[newValue]);
 	}
 }
