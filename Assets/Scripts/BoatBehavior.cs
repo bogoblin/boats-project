@@ -112,7 +112,7 @@ public class BoatBehavior : MonoBehaviour {
 	{
 		float distance = 0.1f * Mathf.Cos(HeelAngle());
 		return distance * (thwartshipWind 
-		- 0.5f * Mathf.Sign(angularVelocity.z) * Mathf.Pow(angularVelocity.z, 2) * sailBehavior.Area * DensityOfAir); // wind resistance on the sail
+		- 0.5f * Mathf.Sign(angularVelocity.z) * Mathf.Pow(angularVelocity.z, 2) * 8 * DensityOfAir); // wind resistance on the sail
 	}
 	public float LateralResistanceMoment(float thwartshipWind)
 	{
@@ -122,7 +122,7 @@ public class BoatBehavior : MonoBehaviour {
 
 	void Start () {
 		weather = Weather.Instance;
-		sailBehavior = Sail.GetComponent<SailBehavior>();
+		//sailBehavior = Sail.GetComponent<SailBehavior>();
 		rudderBehavior = Rudder.GetComponent<RudderBehavior>();
 	}
 
@@ -173,7 +173,8 @@ public class BoatBehavior : MonoBehaviour {
 		AddTorque(Vector3.forward * rudderBehavior.GetAngularAcceleration() * 2);
 
 		//Simulate the torque from the sail
-		Vector3 SailLift = sailBehavior.GetLift();
+		//Vector3 SailLift = sailBehavior.GetLift();
+		Vector3 SailLift = GetComponent<BoatSail>().Lift();
 		float thwartshipWind = Vector3.Dot(SailLift, -this.transform.right);
 		AddTorque(WindForceMoment(thwartshipWind) * Vector3.forward);
 		AddTorque(LateralResistanceMoment(thwartshipWind) * Vector3.forward);

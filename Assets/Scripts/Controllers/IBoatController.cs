@@ -3,4 +3,5 @@
 	float GetRudder();
 	float GetSailPull();
 	float GetSailTurn();
+	bool UsePull();
 }

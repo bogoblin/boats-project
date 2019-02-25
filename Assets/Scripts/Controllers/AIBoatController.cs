@@ -34,4 +34,7 @@ public class AIBoatController : MonoBehaviour, IBoatController {
 	public float GetSailTurn () {
 		return 0;
 	}
+	public bool UsePull () {
+		return true;
+	}
 }

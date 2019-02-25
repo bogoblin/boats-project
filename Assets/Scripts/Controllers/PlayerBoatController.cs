@@ -13,4 +13,7 @@ public class PlayerBoatController : MonoBehaviour, IBoatController {
 	public float GetSailTurn() {
 		return XCI.GetAxis(XboxAxis.RightStickX);
 	}
+	public bool UsePull() {
+		return !PlayerPrefs.GetString("Control Style", "Direct").Equals("Direct");
+	}
 }
