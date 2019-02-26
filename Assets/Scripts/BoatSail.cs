@@ -83,8 +83,9 @@ public class BoatSail : MonoBehaviour {
 		if (controller.UsePull()) 
 		{
 			sailAngularVelocity -= LiftMagnitude()/mass * Time.deltaTime;
+			sailAngularVelocity -= controller.GetSailTurn();
 			// Dampen the sailAngularVelocity
-			sailAngularVelocity *= (1-Time.deltaTime*mass);
+			sailAngularVelocity = Mathf.Lerp(sailAngularVelocity, 0, Time.deltaTime * mass);
 
 
 			localSailAngle += sailAngularVelocity * Time.deltaTime;
@@ -92,7 +93,11 @@ public class BoatSail : MonoBehaviour {
 			// The sail pull is how much the sail is being pulled in.
 			// At 0, the sail isn't being pulled in at all, so it can go all the way out.
 			// At 1, it is being pulled in completely and will be parallel with the boat.
-			sailPull = controller.GetSailPull();
+			sailPull = Mathf.Lerp(
+				sailPull,
+				controller.GetSailPull(),
+				Time.deltaTime * 10
+			);
 			float maxAngleFraction = 1 - sailPull;
 			float newLocalSailAngle = Mathf.Clamp(
 				localSailAngle, 
@@ -118,5 +123,39 @@ public class BoatSail : MonoBehaviour {
 		// Set the scales and rotations of the force and apparent wind arrows.
 		forceArrow.transform.localScale = 0.01f * LiftMagnitude()/weather.GetWindSpeed() * Vector3.one;
 		apparentWindArrow.transform.eulerAngles = new Vector3(0, ApparentWindAngle()*Mathf.Rad2Deg, 0);
+	}
+
+	/// <summary>
+	/// Return the ideal pull amount to get the most forward lift.
+	/// </summary>
+	public float IdealPull() {
+		// First get the local angle the sail would be at with no pull,
+		// after it had been blown by the wind into place.
+		float localAngle = Mathf.Clamp(
+			ApparentWindAngle() - boatAngle - Mathf.PI,
+			-Mathf.PI/2, Mathf.PI/2
+		);
+
+		// Then we binary search for the best pull
+		float min = 1 - Mathf.Abs(localAngle) / (Mathf.PI/2);
+		float max = 1;
+		float pull = (min + max)/2;
+		float delta = (pull-min)/2;
+
+		for (int i=0; i<8; i++) {
+			if (EvaluatePull(pull+delta) > EvaluatePull(pull-delta)) {
+				pull += delta;
+			} else {
+				pull -= delta;
+			}
+			delta /= 2;
+		}
+		return pull;
+	}
+
+	float EvaluatePull(float pull) {
+		float localAngle = Mathf.Sign(localSailAngle) * (1-pull) * Mathf.PI/2;
+		Vector3 lift = Lift(localAngle);
+		return Vector3.Dot(this.transform.forward, lift);
 	}
 }

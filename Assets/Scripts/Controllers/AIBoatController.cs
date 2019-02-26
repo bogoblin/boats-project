@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIBoatController : MonoBehaviour, IBoatController {
-	private BoatBehavior boatBehavior;
 	public GameObject target;
 	private Weather weather;
 	void Start () {
@@ -29,7 +28,7 @@ public class AIBoatController : MonoBehaviour, IBoatController {
 		return angleBetween;
 	}
 	public float GetSailPull () {
-		return pull;
+		return GetComponent<BoatSail>().IdealPull();
 	}
 	public float GetSailTurn () {
 		return 0;
