@@ -26,7 +26,7 @@ public class BoatRope : MonoBehaviour {
 	void Update () {
 		Vector3 ropeStart = start.transform.position;
 		Vector3 ropeEnd = end.transform.position;
-		float looseness = 1-sail.GetTightness();
+		float tightness = sail.GetTightness();
 
 		//float ropeLength = (1-sailPull*0.6f) * totalRopeLength;
 		//float distance = Vector3.Distance(ropeStart, ropeEnd);
@@ -35,16 +35,13 @@ public class BoatRope : MonoBehaviour {
 		for (int i = 0; i <= segments; i++) {
 			float fraction = (float)i/(float)(segments);
 			float yFraction;
-			if (looseness > 0) {
-				// Modelling the rope using a catenary.
-				// this expression returns a number between 0 and 1 for 0 <= x <= 1
-				// The curve is tighter if a is higher
-				float x = fraction;
-				float a = 1 - looseness;
-				yFraction = (Cosh(x/a)-1) / (Cosh(1/a)-1);
-			} else {
-				yFraction = fraction;
-			}
+			// Modelling the rope using a catenary.
+			// this expression returns a number between 0 and 1 for 0 <= x <= 1
+			// The curve is tighter if a is higher
+			float a = 1;
+			float x = fraction;
+			float catenaryY = (Cosh(x/a)-1) / (Cosh(1/a)-1);
+			yFraction = Mathf.Lerp(fraction, catenaryY, 1 - tightness);
 
 			Vector3 segPosition = new Vector3(
 				Mathf.Lerp(ropeStart.x, ropeEnd.x, fraction),
