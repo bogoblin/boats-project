@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class WindActOnCloth : MonoBehaviour {
 
-	public GameObject Sail;
+	private Weather weather;
 	private Cloth ClothComponent;
 	private SailBehavior sailBehavior;
 
 	// Use this for initialization
 	void Start () {
 		ClothComponent = this.GetComponent<Cloth>();
-		sailBehavior = Sail.GetComponent<SailBehavior>();
+		weather = Weather.Instance;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		ClothComponent.externalAcceleration = sailBehavior.GetWind();
+		ClothComponent.externalAcceleration = weather.GetWindVector();
 	}
 }

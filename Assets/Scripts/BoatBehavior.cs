@@ -121,8 +121,8 @@ public class BoatBehavior : MonoBehaviour {
 	}
 
 	void Awake () {
-		cameraPointTo = gameObject;
-		cameraTarget = gameObject;
+		//cameraPointTo = gameObject;
+		//cameraTarget = gameObject;
 	}
 
 	void Start () {

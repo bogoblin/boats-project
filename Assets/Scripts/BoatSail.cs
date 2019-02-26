@@ -72,6 +72,11 @@ public class BoatSail : MonoBehaviour {
 		weather = Weather.Instance;
 	}
 	
+	private float sailPull = 0;
+	public float GetTightness() {
+		if (sailPull == 1) return 1;
+		return (Mathf.Abs(localSailAngle/(Mathf.PI/2))) / (1-sailPull);
+	}
 	void Update() {
 		// Update the sail's position based on the controller's inputs.
 		if (controller.UsePull()) 
@@ -82,7 +87,8 @@ public class BoatSail : MonoBehaviour {
 			// The sail pull is how much the sail is being pulled in.
 			// At 0, the sail isn't being pulled in at all, so it can go all the way out.
 			// At 1, it is being pulled in completely and will be parallel with the boat.
-			float maxAngleFraction = 1 - controller.GetSailPull();
+			sailPull = controller.GetSailPull();
+			float maxAngleFraction = 1 - sailPull;
 			float newLocalSailAngle = Mathf.Clamp(
 				localSailAngle, 
 				-(Mathf.PI/2)*maxAngleFraction, 

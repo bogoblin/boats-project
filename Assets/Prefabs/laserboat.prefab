@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 114642846785990318}
   - component: {fileID: 114147065831782122}
   - component: {fileID: 114975479477319626}
+  - component: {fileID: 114083432167319336}
   m_Layer: 0
   m_Name: laserboat
   m_TagString: Untagged
@@ -210,7 +211,7 @@ GameObject:
   - component: {fileID: 23857307746503754}
   - component: {fileID: 65193020367742958}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Rope Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +437,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4319888239353702}
   - component: {fileID: 120054524293087502}
-  - component: {fileID: 114520498712072536}
   m_Layer: 0
   m_Name: Rope
   m_TagString: Untagged
@@ -1631,6 +1631,21 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 1
   m_Emitting: 1
+--- !u!114 &114083432167319336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1272967880631336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3974683823bb445408b0e50b3486db31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 1287539275972676}
+  end: {fileID: 1338864811302584}
+  rope: {fileID: 1707447741296770}
+  segments: 10
 --- !u!114 &114147065831782122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1669,21 +1684,6 @@ MonoBehaviour:
   speed: 1
   cameraMode: 0
   ZoomSpeed: 0.01
---- !u!114 &114520498712072536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1707447741296770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3974683823bb445408b0e50b3486db31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  end: {fileID: 1338864811302584}
-  boat: {fileID: 1272967880631336}
-  boatBehavior: {fileID: 0}
-  segments: 20
 --- !u!114 &114529579601767016
 MonoBehaviour:
   m_ObjectHideFlags: 1
