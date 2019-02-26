@@ -8,38 +8,40 @@ public class BoatSail : MonoBehaviour {
 	public GameObject forceArrow, apparentWindArrow;
 	public float area; // The area of the sail.
 
+	/// <summary>
+	/// The angle of the boat, in world space.
+	/// </summary>
 	private float boatAngle {
 		get { return transform.eulerAngles.y * Mathf.Deg2Rad; }
 	}
 
-	// The sail angle relative to the boat, in radians.
-	// 0 means that the sail is completely parallel to the boat.
-	// This value should be capped between -pi/2 and pi/2
-	private float _localSailAngle = 0;
+	/// <summary>
+	/// The sail angle relative to the boat, in radians.
+	/// 0 means that the sail is completely parallel to the boat.
+	/// This value should be capped between -pi/2 and pi/2
+	/// </summary>
 	private float localSailAngle {
 		get { return _localSailAngle; }
 		set { 
-			_localSailAngle = Mathf.Clamp(value, -Mathf.PI/2, Mathf.PI/2); 
+			_localSailAngle = value; 
 			sailObject.transform.localEulerAngles = new Vector3(0, localSailAngle*Mathf.Rad2Deg, 0);
 		}
 	}
-	private Vector3 sailNormal {
-		get { 
-			return Quaternion.AngleAxis(globalSailAngle * Mathf.Rad2Deg, Vector3.up) * Vector3.right;
-		}
+	private float _localSailAngle = 0;
+	private Vector3 SailNormal(float localAngle) {
+		float angle = boatAngle + localAngle;
+		return Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up) * Vector3.right;
 	}
 	private float sailAngularVelocity = 0;
 
-	// The sail angle in world space, in radians.
-	// This is automatically calculated and is a read only property.
-	private float globalSailAngle {
-		get { return boatAngle + localSailAngle; }
-	}
+	/// <summary>
+	/// The sail angle in world space, in radians.
+	/// This is automatically calculated and is a read only property.
+	/// </summary>
+	private float globalSailAngle { get { return boatAngle + localSailAngle; } }
 
 	private BoatBehavior boatBehavior;
-	private IBoatController controller {
-		get { return boatBehavior.controller; }
-	}
+	private IBoatController controller;
 	private Weather weather;
 
 	private Vector3 ApparentWind() {
@@ -49,39 +51,57 @@ public class BoatSail : MonoBehaviour {
 		return Vector3.SignedAngle(ApparentWind(), Vector3.forward, Vector3.up) 
 			* Mathf.Deg2Rad;
 	}
-	public float LiftMagnitude(float sailAngle) {
+	public float LiftMagnitude(float localAngle)
+	{
+		float sailAngle = boatAngle + localAngle;
 		return 0.5f * Constants.DensityOfAir 
 			* ApparentWind().sqrMagnitude 
 			* Mathf.Sin(ApparentWindAngle() - sailAngle) 
 			* area;
 	}
-	public float LiftMagnitude() {
-		return LiftMagnitude(globalSailAngle);
+	public float LiftMagnitude() { return LiftMagnitude(localSailAngle); }
+	public Vector3 Lift(float localAngle) { 
+		return SailNormal(localAngle) * LiftMagnitude(localAngle);
 	}
-	public Vector3 Lift() {
-		return sailNormal * LiftMagnitude();
-	}
+	public Vector3 Lift() { return Lift(localSailAngle); }
 
-	void Start () {
+	void Start() 
+	{
 		boatBehavior = GetComponent<BoatBehavior>();
+		controller = boatBehavior.controller;
 		weather = Weather.Instance;
 	}
 	
-	void Update () {
+	void Update() {
+		// Update the sail's position based on the controller's inputs.
 		if (controller.UsePull()) 
 		{
-			sailAngularVelocity += LiftMagnitude(globalSailAngle);
-			float maxAngleFraction = 1 - controller.GetSailPull();
+			sailAngularVelocity -= LiftMagnitude() * Time.deltaTime;
 			localSailAngle += sailAngularVelocity * Time.deltaTime;
-			localSailAngle = Mathf.Clamp(
+
+			// The sail pull is how much the sail is being pulled in.
+			// At 0, the sail isn't being pulled in at all, so it can go all the way out.
+			// At 1, it is being pulled in completely and will be parallel with the boat.
+			float maxAngleFraction = 1 - controller.GetSailPull();
+			float newLocalSailAngle = Mathf.Clamp(
 				localSailAngle, 
 				-(Mathf.PI/2)*maxAngleFraction, 
 				 (Mathf.PI/2)*maxAngleFraction );
+
+			// Some clamping has occurred, which means the sail should bounce back a bit.
+			if (newLocalSailAngle != localSailAngle) {
+				sailAngularVelocity = localSailAngle - newLocalSailAngle;
+				localSailAngle = newLocalSailAngle;
+			}
 		}
 		else
 		{
 			sailAngularVelocity = -controller.GetSailTurn();
 			localSailAngle += sailAngularVelocity * Time.deltaTime;
+			localSailAngle = Mathf.Clamp(
+				localSailAngle, 
+				-(Mathf.PI/2), 
+				 (Mathf.PI/2) );
 		}
 
 		// Set the scales and rotations of the force and apparent wind arrows.

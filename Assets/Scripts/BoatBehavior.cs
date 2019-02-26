@@ -120,6 +120,11 @@ public class BoatBehavior : MonoBehaviour {
 		return distance * thwartshipWind;
 	}
 
+	void Awake () {
+		cameraPointTo = gameObject;
+		cameraTarget = gameObject;
+	}
+
 	void Start () {
 		weather = Weather.Instance;
 		//sailBehavior = Sail.GetComponent<SailBehavior>();
