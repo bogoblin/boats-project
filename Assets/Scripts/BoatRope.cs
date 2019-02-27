@@ -22,11 +22,26 @@ public class BoatRope : MonoBehaviour {
 		line = rope.GetComponent<LineRenderer>();
 		line.positionCount = segments + 1; // Include last point
 		totalRopeLength = Vector3.Distance(ropeStart, ropeEnd);
+		Material[] newMaterials = {
+			new Material(Shader.Find("Sprites/Diffuse"))
+		};
+		line.materials = newMaterials;
+	}
+	Color GetColor(float tightness) {
+		return new Color(
+			Mathf.Pow(tightness, 2),
+			0,
+			1 - tightness
+		);
 	}
 	void Update () {
 		Vector3 ropeStart = start.transform.position;
 		Vector3 ropeEnd = end.transform.position;
 		float tightness = sail.GetTightness();
+
+		Color color = GetColor(tightness);
+		line.startColor = color;
+		line.endColor   = color;
 
 		//float ropeLength = (1-sailPull*0.6f) * totalRopeLength;
 		//float distance = Vector3.Distance(ropeStart, ropeEnd);
