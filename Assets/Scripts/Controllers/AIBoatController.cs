@@ -7,33 +7,55 @@ public class AIBoatController : MonoBehaviour, IBoatController {
 	private Weather weather;
 	void Start () {
 		weather = Weather.Instance;
+		sail = GetComponent<BoatSail>();
 	}
-	// The direction that the boat should point at ideally, if the wind was behind it.
+	///<summary>
+	/// The direction that the boat should point at ideally, if the wind was behind it.
+	///</summary>
 	private Vector3 idealDirection; 
 
-	// The direction that the boat should be in.
+	///<summary>
+	/// The direction that the boat should be in.
+	///</summary>
 	private Vector3 targetDirection;
-	private float pull;
+
+	///<summary>
+	/// The boat will sail no closer to the wind than this
+	///</summary>
+	public float tackAngle = 45;
+
+	float Errf (float x) { return 2*(1 / (Mathf.Exp(-x) + 1)) - 1; }
 
 	void Update () {
+		// What we're trying to do here is choose a sensible direction to head in.
+		// Niavely, this is the direction of the target, but sailing directly into the wind is bad.
 		idealDirection = 
 			Vector3.Normalize(target.transform.position - transform.position);
-		float dot = Vector3.Dot(idealDirection, weather.GetWindVector().normalized);
-		pull = Mathf.Clamp01(-2*dot);
-		targetDirection = idealDirection;
+
+		// If this heading angle is low, the boat is sailing with the wind.
+		float headingAngleToWind = Vector3.SignedAngle(idealDirection, weather.GetWindVector(), Vector3.up);
+
+		// We can't sail directly into the wind.
+		// If the direction is rotated so that it lands inside the tacking zone,
+		// we can sail there. that is what this block does.
+		if 		(headingAngleToWind >   180 - tackAngle)  {
+			targetDirection = Quaternion.AngleAxis( tackAngle, Vector3.up) * idealDirection;
+		}
+		else if (headingAngleToWind < -(180 - tackAngle)) {
+			targetDirection = Quaternion.AngleAxis(-tackAngle, Vector3.up) * idealDirection;
+		}
+		else {
+			// Sailing directly towards the target is fine here.
+			targetDirection = idealDirection;
+		}
 	}
 	public float GetRudder () {
 		float angleBetween = Mathf.Deg2Rad * 
 			Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
-		return angleBetween;
+		return Errf(angleBetween);
 	}
-	public float GetSailPull () {
-		return GetComponent<BoatSail>().IdealPull();
-	}
-	public float GetSailTurn () {
-		return 0;
-	}
-	public bool UsePull () {
-		return true;
-	}
+	private BoatSail sail;
+	public float GetSailPull () { return sail.IdealPull(); }
+	public float GetSailTurn () { return 0;                }
+	public  bool     UsePull () { return true;             }
 }

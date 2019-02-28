@@ -160,7 +160,8 @@ public class BoatBehavior : MonoBehaviour {
 	void Update () {
 		controlStyle = PlayerPrefs.GetString("Control Style", "Indirect");
 
-		cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
+		if (cameraPointTo != null && cameraTarget != null)
+			cameraTarget.transform.LookAt(cameraPointTo.transform, Vector3.up);
 		
 		//Debug.Log(Input.GetAxis("BalanceRight")-Input.GetAxis("BalanceLeft"));
 		/*
