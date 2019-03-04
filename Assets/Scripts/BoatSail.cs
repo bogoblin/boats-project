@@ -48,8 +48,7 @@ public class BoatSail : MonoBehaviour {
 		return weather.GetWindVector() - boatBehavior.GetGlobalVelocity();
 	}
 	private float ApparentWindAngle() {
-		return Vector3.SignedAngle(ApparentWind(), Vector3.forward, Vector3.up) 
-			* Mathf.Deg2Rad;
+		return Mathf.Atan2(ApparentWind().x, ApparentWind().z);
 	}
 	public float LiftMagnitude(float localAngle)
 	{
