@@ -24,6 +24,16 @@ public class BoatBehavior : MonoBehaviour {
 	private Vector3 torque = Vector3.zero;
 	private Vector3 angularVelocity = Vector3.zero;
 	private Weather weather;
+	private GameObject _target;
+	public GameObject target {
+		get {
+			return _target;
+		}
+		set {
+			_target = value;
+			cameraPointTo = _target;
+		}
+	}
 
 	public string controlStyle {
 		get {
@@ -43,6 +53,8 @@ public class BoatBehavior : MonoBehaviour {
 	public float GetHeadingAngle() {
 		return this.transform.eulerAngles.y * Mathf.Deg2Rad;
 	}
+
+	public bool isPlayer { get { return GetComponent<PlayerBoatController>() != null; } }
 
 	// Dimensions for prism model
 	const float width = 1.4f; const float height = 0.4f; const float length = 4.2f;
@@ -118,11 +130,6 @@ public class BoatBehavior : MonoBehaviour {
 	{
 		float distance = -0.05f * Mathf.Cos(HeelAngle());
 		return distance * thwartshipWind;
-	}
-
-	void Awake () {
-		//cameraPointTo = gameObject;
-		//cameraTarget = gameObject;
 	}
 
 	void Start () {

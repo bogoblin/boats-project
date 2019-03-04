@@ -27,6 +27,10 @@ public class AIBoatController : MonoBehaviour, IBoatController {
 	float Errf (float x) { return 2*(1 / (Mathf.Exp(-x) + 1)) - 1; }
 
 	void Update () {
+		target = GetComponent<BoatBehavior>().target;
+		if (target == null) {
+			target = this.gameObject;
+		}
 		// What we're trying to do here is choose a sensible direction to head in.
 		// Niavely, this is the direction of the target, but sailing directly into the wind is bad.
 		idealDirection = 
