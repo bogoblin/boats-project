@@ -12,7 +12,7 @@ public class CheckpointRace : MonoBehaviour {
 	
 	[HideInInspector]
 	public Checkpoint[] checkpoints;
-	public GameObject playerBoatPrefab, AIboatPrefab;
+	public GameObject playerBoatPrefab, aiBoatPrefab;
 	private BoatBehavior[] boats;
 	public int numberOfAI = 0;
 
@@ -30,7 +30,7 @@ public class CheckpointRace : MonoBehaviour {
 		boats[0] = Instantiate(playerBoatPrefab, Vector3.zero, Quaternion.identity).GetComponent<BoatBehavior>();
 
 		for (int i=0; i<numberOfAI; i++) {
-			boats[i+1] = Instantiate(AIboatPrefab, Vector3.zero + Vector3.right*(i+1)*10, Quaternion.identity).GetComponent<BoatBehavior>();
+			boats[i+1] = Instantiate(aiBoatPrefab, Vector3.zero + -Vector3.forward*(i+1)*10, Quaternion.AngleAxis(90, Vector3.up)).GetComponent<BoatBehavior>();
 		}
 
 		foreach (BoatBehavior boat in boats) {

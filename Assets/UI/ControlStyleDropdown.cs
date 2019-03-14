@@ -7,7 +7,7 @@ public class ControlStyleDropdown : Dropdown {
 	// This behavior ensures that the control style dropdown menu always displays the correct tooltip
 
 	public GameObject[] Tooltips;
-	private string[] ControlStyles = {"Direct", "Indirect"};
+	private string[] ControlStyles = {"Direct", "Indirect", "Automatic"};
 
 	void Start () {
 		// Initialise the dropdown value to be the saved control style
