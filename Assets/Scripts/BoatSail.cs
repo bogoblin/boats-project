@@ -122,6 +122,8 @@ public class BoatSail : MonoBehaviour {
 		// Set the scales and rotations of the force and apparent wind arrows.
 		forceArrow.transform.localScale = 0.01f * LiftMagnitude()/weather.GetWindSpeed() * Vector3.one;
 		apparentWindArrow.transform.eulerAngles = new Vector3(0, ApparentWindAngle()*Mathf.Rad2Deg, 0);
+
+		Debug.Log(PointOfSailing());
 	}
 
 	/// <summary>
@@ -156,5 +158,16 @@ public class BoatSail : MonoBehaviour {
 		float localAngle = Mathf.Sign(localSailAngle) * (1-pull) * Mathf.PI/2;
 		Vector3 lift = Lift(localAngle);
 		return Vector3.Dot(this.transform.forward, lift);
+	}
+
+	public string PointOfSailing() {
+		float angle = 180 - Vector3.Angle(transform.forward, ApparentWind());
+		if (angle < 40) return "Between Beats";
+		if (angle < 60) return "Beat";
+		if (angle < 80) return "Tight Reach";
+		if (angle < 110) return "Reach";
+		if (angle < 140) return "Broad Reach";
+		if (angle < 165) return "Run";
+		return "Dead Run";
 	}
 }
