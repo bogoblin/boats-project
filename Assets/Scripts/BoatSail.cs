@@ -122,8 +122,6 @@ public class BoatSail : MonoBehaviour {
 		// Set the scales and rotations of the force and apparent wind arrows.
 		forceArrow.transform.localScale = 0.01f * LiftMagnitude()/weather.GetWindSpeed() * Vector3.one;
 		apparentWindArrow.transform.eulerAngles = new Vector3(0, ApparentWindAngle()*Mathf.Rad2Deg, 0);
-
-		Debug.Log(PointOfSailing());
 	}
 
 	/// <summary>
