@@ -7,7 +7,9 @@ public class CheckpointRace : MonoBehaviour {
 
 	public bool lapped = false;
 	public int numberOfLaps = 3;
-	private Dictionary<BoatBehavior, CheckpointInfo> checkpointInfos;
+	
+	[HideInInspector]
+	public Dictionary<BoatBehavior, CheckpointInfo> checkpointInfos;
 	private int checkpointCount;
 	
 	[HideInInspector]

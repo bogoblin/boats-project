@@ -1602,7 +1602,7 @@ MonoBehaviour:
     type: 2}
   aiBoatPrefab: {fileID: 1795361513727868, guid: 531c020f664308b4095fa2e05996216a,
     type: 2}
-  numberOfAI: 50
+  numberOfAI: 0
 --- !u!4 &1161648360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4445658942608436, guid: 12860d9fa9f87bf4bac7c1a168d5d688,
