@@ -25,10 +25,10 @@ public class CheckpointInfo {
                 startTime = Time.time;
             }
             // this means that it is the next checkpoint
-            DisplayRaceText(((Time.time + totalPenalty) - startTime).ToString());
+            DisplayRaceText(((Time.time + totalPenalty) - startTime).ToString(), Color.green);
             if (checkpointIndex == 0 && currentLap == race.numberOfLaps) {
                 race.Finish(boat);
-                DisplayRaceText("Finished!");
+                DisplayRaceText("Finished!", Color.white);
                 return true;
             }
             checkpointIndex++;
@@ -47,11 +47,11 @@ public class CheckpointInfo {
         if (lastPenalty == 0 || Time.time - lastPenalty > PenaltyPerHit) {
             lastPenalty = Time.time;
             totalPenalty += PenaltyPerHit;
-            DisplayRaceText("+5 second penalty!");
+            DisplayRaceText("+"+PenaltyPerHit.ToString()+" second penalty!", Color.red);
         }
     }
 
-    void DisplayRaceText(string text) {
-        Debug.Log(text);
+    void DisplayRaceText(string text, Color color) {
+        boat.GetComponentInChildren<RaceText>().SetText(text, color);
     }
 }
