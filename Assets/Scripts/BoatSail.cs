@@ -20,7 +20,7 @@ public class BoatSail : MonoBehaviour {
 	/// 0 means that the sail is completely parallel to the boat.
 	/// This value should be capped between -pi/2 and pi/2
 	/// </summary>
-	private float localSailAngle {
+	public float localSailAngle {
 		get { return _localSailAngle; }
 		set { 
 			_localSailAngle = value; 
@@ -156,6 +156,53 @@ public class BoatSail : MonoBehaviour {
 		float localAngle = Mathf.Sign(localSailAngle) * (1-pull) * Mathf.PI/2;
 		Vector3 lift = Lift(localAngle);
 		return Vector3.Dot(this.transform.forward, lift);
+	}
+
+	public float IdealAngle() {
+		// We need to try angles on both sides of the boat.
+		// Do a binary search for each side.
+
+		float min = -Mathf.PI/2;
+		float max = 0;
+		float angle = (min + max)/2;
+		float delta = (angle-min)/2;
+
+		for (int i=0; i<8; i++) {
+			if (EvaluateAngle(angle+delta) > EvaluateAngle(angle-delta)) {
+				angle += delta;
+			} else {
+				angle -= delta;
+			}
+			delta /= 2;
+		}
+		float lessAnglePower = EvaluateAngle(angle);
+		float lessAngle = angle;
+
+		min = 0;
+		max = Mathf.PI/2;
+		angle = (min + max)/2;
+		delta = (angle-min)/2;
+
+		for (int i=0; i<8; i++) {
+			if (EvaluateAngle(angle+delta) > EvaluateAngle(angle-delta)) {
+				angle += delta;
+			} else {
+				angle -= delta;
+			}
+			delta /= 2;
+		}
+		float greaterAnglePower = EvaluateAngle(angle);
+		float greaterAngle = angle;
+
+		if (greaterAnglePower > lessAnglePower) {
+			return greaterAngle;
+		} else {
+			return lessAngle;
+		}
+	}
+
+	float EvaluateAngle(float angle) {
+		return Vector3.Dot(transform.forward, Lift(angle));
 	}
 
 	public string PointOfSailing() {
