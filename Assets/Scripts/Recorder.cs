@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 public class Recorder : MonoBehaviour {
 
@@ -20,11 +21,11 @@ public class Recorder : MonoBehaviour {
 	void Start() {
 		boat = GetComponent<BoatBehavior>();
 		sail = GetComponent<BoatSail>();
-		rudder = boat.rudderBehavior;
-		StartRecording();
+		rudder = boat.Rudder.GetComponent<RudderBehavior>();
 	}
 
 	public void StartRecording() {
+		Debug.Log("Recording started.");
 		recording = true;
 		frame = 0;
 		position = new List<Vector3>();
@@ -43,17 +44,33 @@ public class Recorder : MonoBehaviour {
 		localSailAngle.Add(sail.localSailAngle);
 		localRudderAngle.Add(rudder.LocalRudderAngle);
 		frame++;
+	}
 
-		if (frame == 400) StopRecording();
+	void Update() {
+		if (recording) {
+			if (XCI.GetButtonDown(XboxButton.DPadUp)) {
+				StopRecording();
+			}
+		} else {
+			if (XCI.GetButtonDown(XboxButton.DPadUp)) {
+				StartRecording();
+			}
+			if (frame > 0 && XCI.GetButtonDown(XboxButton.DPadDown)) {
+				PlayRecording();
+			}
+		}
 	}
 
 	public void StopRecording() {
 		recording = false;
 		Debug.Log("stopped recording on frame "+frame.ToString());
+		// dump output to file or whatever
+	}
+
+	public void PlayRecording() {
 		Destroy(gameObject);
 		GameObject playbackBoat = Instantiate(Manager.Instance.PlayerBoatPrefab, position[0], rotation[0]);
 		Playback playback = playbackBoat.AddComponent(typeof(Playback)) as Playback;
 		playback.StartPlayback(position, rotation, localSailAngle, localRudderAngle);
-		// dump output to file or whatever
 	}
 }

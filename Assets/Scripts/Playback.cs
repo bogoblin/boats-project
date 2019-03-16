@@ -26,7 +26,7 @@ public class Playback : MonoBehaviour {
 		frame = 0;
 		boat = GetComponent<BoatBehavior>();
 		sail = GetComponent<BoatSail>();
-		rudder = boat.rudderBehavior;
+		rudder = boat.Rudder.GetComponent<RudderBehavior>();
 		position = positionL;
 		rotation = rotationL;
 		localSailAngle = localSailAngleL;
@@ -48,7 +48,7 @@ public class Playback : MonoBehaviour {
 		boat.transform.position = position[frame];
 		boat.transform.rotation = rotation[frame];
 		sail.localSailAngle = localSailAngle[frame];
-		//rudder.LocalRudderAngle = localRudderAngle[frame];
+		rudder.LocalRudderAngle = localRudderAngle[frame];
 	}
 
 	public void StopPlayback() {

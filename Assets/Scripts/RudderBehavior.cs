@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RudderBehavior : MonoBehaviour {
+	
+	private float _localRudderAngle;
 
-	public float LocalRudderAngle = 0;
+	public float LocalRudderAngle {
+		set {
+			_localRudderAngle = value;
+			transform.localRotation = Quaternion.AngleAxis(value, Vector3.up);
+		}
+		get {
+			return _localRudderAngle;
+		}
+	}
 
 	public GameObject Ship;
 	private BoatBehavior boatBehavior;
@@ -21,8 +31,6 @@ public class RudderBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		this.transform.Rotate(Vector3.up, LocalRudderAngle);
 		LocalRudderAngle = boatBehavior.controller.GetRudder()*30;
-		this.transform.Rotate(Vector3.up, -LocalRudderAngle);
 	}
 }
