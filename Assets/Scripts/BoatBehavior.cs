@@ -48,7 +48,7 @@ public class BoatBehavior : MonoBehaviour {
 		return velocity;
 	}
 	public Vector3 GetGlobalVelocity() {
-		return Quaternion.Euler(this.transform.eulerAngles) * GetLocalVelocity();// + weather.GetWaterVector()*Time.deltaTime;
+		return Quaternion.Euler(this.transform.eulerAngles) * GetLocalVelocity();// + weather.GetWaterVector()*Time.fixedDeltaTime;
 	}
 	public float GetHeadingAngle() {
 		return this.transform.eulerAngles.y * Mathf.Deg2Rad;
@@ -150,21 +150,20 @@ public class BoatBehavior : MonoBehaviour {
 	}
 	void DoPhysics() {
 		// Integrate velocity
-		velocity += (force / mass) * Time.deltaTime;
-		this.transform.Translate(velocity*Time.deltaTime, Space.Self);
+		velocity += (force / mass) * Time.fixedDeltaTime;
+		this.transform.Translate(velocity*Time.fixedDeltaTime, Space.Self);
 		
 		// Integrate angular velocity
-		angularVelocity += torque * Time.deltaTime;
-		this.transform.Rotate(0, angularVelocity.y*Time.deltaTime, 0, Space.Self);
-		InnerBoat.transform.Rotate(0, 0, angularVelocity.z*Time.deltaTime, Space.Self);
+		angularVelocity += torque * Time.fixedDeltaTime;
+		this.transform.Rotate(0, angularVelocity.y*Time.fixedDeltaTime, 0, Space.Self);
+		InnerBoat.transform.Rotate(0, 0, angularVelocity.z*Time.fixedDeltaTime, Space.Self);
 
 		// Reset force and torque
 		force = Vector3.zero;
 		torque = Vector3.zero;
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		controlStyle = PlayerPrefs.GetString("Control Style", "Indirect");
 
 		if (cameraPointTo != null && cameraTarget != null)
@@ -203,7 +202,7 @@ public class BoatBehavior : MonoBehaviour {
 		AddForce(BackwardDrag * Vector3.back);
 
 		// The boat should move with the current
-		this.transform.Translate(weather.GetWaterVector()*Time.deltaTime, Space.World);
+		this.transform.Translate(weather.GetWaterVector()*Time.fixedDeltaTime, Space.World);
 
 		// Dampen the rotation of the boat
 		AddTorque(

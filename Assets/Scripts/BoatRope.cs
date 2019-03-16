@@ -34,7 +34,7 @@ public class BoatRope : MonoBehaviour {
 			1 - tightness
 		);
 	}
-	void Update () {
+	void FixedUpdate () {
 		Vector3 ropeStart = start.transform.position;
 		Vector3 ropeEnd = end.transform.position;
 		float tightness = sail.GetTightness();

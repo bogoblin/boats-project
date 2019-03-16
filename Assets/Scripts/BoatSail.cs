@@ -77,17 +77,17 @@ public class BoatSail : MonoBehaviour {
 		return (Mathf.Abs(localSailAngle/(Mathf.PI/2))) / (1-sailPull);
 	}
 	public float mass = 20;
-	void Update() {
+	void FixedUpdate() {
 		// Update the sail's position based on the controller's inputs.
 		if (controller.UsePull()) 
 		{
-			sailAngularVelocity -= LiftMagnitude()/mass * Time.deltaTime;
+			sailAngularVelocity -= LiftMagnitude()/mass * Time.fixedDeltaTime;
 			sailAngularVelocity -= controller.GetSailTurn();
 			// Dampen the sailAngularVelocity
-			sailAngularVelocity = Mathf.Lerp(sailAngularVelocity, 0, Time.deltaTime * mass);
+			sailAngularVelocity = Mathf.Lerp(sailAngularVelocity, 0, Time.fixedDeltaTime * mass);
 
 
-			localSailAngle += sailAngularVelocity * Time.deltaTime;
+			localSailAngle += sailAngularVelocity * Time.fixedDeltaTime;
 
 			// The sail pull is how much the sail is being pulled in.
 			// At 0, the sail isn't being pulled in at all, so it can go all the way out.
@@ -95,7 +95,7 @@ public class BoatSail : MonoBehaviour {
 			sailPull = Mathf.Lerp(
 				sailPull,
 				controller.GetSailPull(),
-				Time.deltaTime * 10
+				Time.fixedDeltaTime * 10
 			);
 			float maxAngleFraction = 1 - sailPull;
 			float newLocalSailAngle = Mathf.Clamp(
@@ -112,7 +112,7 @@ public class BoatSail : MonoBehaviour {
 		else
 		{
 			sailAngularVelocity = -controller.GetSailTurn();
-			localSailAngle += sailAngularVelocity * Time.deltaTime;
+			localSailAngle += sailAngularVelocity * Time.fixedDeltaTime;
 			localSailAngle = Mathf.Clamp(
 				localSailAngle, 
 				-(Mathf.PI/2), 

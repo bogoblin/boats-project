@@ -55,19 +55,12 @@ public class Weather : MonoBehaviour {
 		WaterAngle = angle;
 		WaterMaterial.SetVector("WaveSpeed", new Vector4(
 			-GetWaterVector().x, -GetWaterVector().z, -GetWaterVector().x, -GetWaterVector().z
-		)/(Time.deltaTime*2));
+		)/(Time.fixedDeltaTime*2));
 	}
 
 	private Material WaterMaterial;
-
-	// Use this for initialization
 	void Start () {
 		WaterMaterial = water.GetComponent<Renderer>().sharedMaterial;
 		SetWaterVector(WaterSpeed, WaterAngle);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }

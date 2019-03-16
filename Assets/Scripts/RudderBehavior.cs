@@ -20,7 +20,7 @@ public class RudderBehavior : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		this.transform.Rotate(Vector3.up, LocalRudderAngle);
 		LocalRudderAngle = boatBehavior.controller.GetRudder()*30;
 		this.transform.Rotate(Vector3.up, -LocalRudderAngle);
