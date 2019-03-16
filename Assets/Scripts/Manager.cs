@@ -5,9 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour {
 
-	void Awake() {
+	public GameObject PlayerBoatPrefab;
+	public GameObject AiBoatPrefab;
+
+	private static Manager _instance;
+	public static Manager Instance {get {return _instance;}}
+
+	private void Awake() {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        } else {
+            _instance = this;
+        }
 		DontDestroyOnLoad(transform.gameObject);
-	}
+    }
 
 	public void Reset() {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);

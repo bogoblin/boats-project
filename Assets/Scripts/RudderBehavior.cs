@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RudderBehavior : MonoBehaviour {
 
-	private float LocalRudderAngle = 0;
+	public float LocalRudderAngle = 0;
 
 	public GameObject Ship;
 	private BoatBehavior boatBehavior;

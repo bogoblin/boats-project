@@ -51,3 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b29adbb240a2ec4bb19dbb559164bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerBoatPrefab: {fileID: 1185061235160532, guid: 875568c7ab765d64e85e194b454b91f4,
+    type: 2}
+  AiBoatPrefab: {fileID: 1795361513727868, guid: 531c020f664308b4095fa2e05996216a,
+    type: 2}

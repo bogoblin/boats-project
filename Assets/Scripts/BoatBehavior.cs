@@ -14,7 +14,7 @@ public class BoatBehavior : MonoBehaviour {
 	public float mass, HullSurfaceArea, boatArea;
 
 	[HideInInspector] public SailBehavior sailBehavior;
-	private RudderBehavior rudderBehavior;
+	public RudderBehavior rudderBehavior;
 	private const float DensityOfWater = 10;
 	private const float DensityOfAir = 1.225f;
 	private const float Gravity = 9.81f;

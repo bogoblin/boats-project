@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 114607244439275170}
   - component: {fileID: 114255699765186426}
   - component: {fileID: 114241153379945628}
+  - component: {fileID: 114124347503304528}
   m_Layer: 0
   m_Name: Player Boat
   m_TagString: Untagged
@@ -1827,6 +1828,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114124347503304528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185061235160532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593c99700636e7f4a8fc3e3499bff7d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114138076592561006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1849,6 +1861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385cac6bf6fe4294d8b949b82589b641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LocalRudderAngle: 0
   Ship: {fileID: 1185061235160532}
 --- !u!114 &114186991424143834
 MonoBehaviour:
@@ -2014,6 +2027,7 @@ MonoBehaviour:
   HullSurfaceArea: 5
   boatArea: 3
   sailBehavior: {fileID: 0}
+  rudderBehavior: {fileID: 0}
 --- !u!114 &114558747250421042
 MonoBehaviour:
   m_ObjectHideFlags: 1
