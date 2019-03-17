@@ -28,11 +28,7 @@ public class BoatRope : MonoBehaviour {
 		line.materials = newMaterials;
 	}
 	Color GetColor(float tightness) {
-		return new Color(
-			Mathf.Pow(tightness, 2),
-			0,
-			1 - tightness
-		);
+		return Color.HSVToRGB(Mathf.Lerp(240f/360f, 1, tightness), 1, 1);
 	}
 	void FixedUpdate () {
 		Vector3 ropeStart = start.transform.position;
