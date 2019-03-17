@@ -17,6 +17,7 @@ public class Playback : MonoBehaviour {
 	RudderBehavior rudder;
 
 	void Awake() {
+		// Having a recorder and a playback on the same boat will cause problems, so delete the recorder if there is one.
 		Destroy(GetComponent<Recorder>());
 	}
 

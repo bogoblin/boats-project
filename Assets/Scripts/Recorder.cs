@@ -14,6 +14,8 @@ public class Recorder : MonoBehaviour {
 	bool recording = false;
 	int frame = 0;
 
+	string recordingString = "";
+
 	BoatBehavior boat;
 	BoatSail sail;
 	RudderBehavior rudder;
@@ -26,6 +28,7 @@ public class Recorder : MonoBehaviour {
 
 	public void StartRecording() {
 		Debug.Log("Recording started.");
+		recordingString = "";
 		recording = true;
 		frame = 0;
 		position = new List<Vector3>();
@@ -43,6 +46,18 @@ public class Recorder : MonoBehaviour {
 		rotation.Add(boat.transform.rotation);
 		localSailAngle.Add(sail.localSailAngle);
 		localRudderAngle.Add(rudder.LocalRudderAngle);
+
+		recordingString += position[frame].x.ToString()+",";
+		recordingString += position[frame].y.ToString()+",";
+		recordingString += position[frame].z.ToString()+",";
+
+		recordingString += rotation[frame].x.ToString()+",";
+		recordingString += rotation[frame].y.ToString()+",";
+		recordingString += rotation[frame].z.ToString()+",";
+		recordingString += rotation[frame].w.ToString()+",";
+
+		recordingString += localSailAngle[frame].ToString()+",";
+		recordingString += localRudderAngle[frame].ToString()+",";
 		frame++;
 	}
 
@@ -77,20 +92,7 @@ public class Recorder : MonoBehaviour {
 
 	void Save() {
 		string recordingName = "test";
-		string recordingString = recordingName+","+frame.ToString()+",";
-		for (int f=0; f<frame; f++) {
-			recordingString += position[f].x.ToString()+",";
-			recordingString += position[f].y.ToString()+",";
-			recordingString += position[f].z.ToString()+",";
-
-			recordingString += rotation[f].x.ToString()+",";
-			recordingString += rotation[f].y.ToString()+",";
-			recordingString += rotation[f].z.ToString()+",";
-			recordingString += rotation[f].w.ToString()+",";
-
-			recordingString += localSailAngle[f].ToString()+",";
-			recordingString += localRudderAngle[f].ToString()+",";
-		}
+		recordingString = recordingName+","+frame.ToString()+","+recordingString;
 
 		PlayerPrefs.SetString("recording-"+recordingName, recordingString);
 	}
