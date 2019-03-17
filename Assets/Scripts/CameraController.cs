@@ -6,7 +6,6 @@ using XboxCtrlrInput;
 public class CameraController : MonoBehaviour {
 
 	public GameObject cameraTarget;
-	private GameObject camera;
 	public float speed = 1;
 	public enum CameraMode {
 		Checkpoint,
@@ -14,34 +13,33 @@ public class CameraController : MonoBehaviour {
 	};
 	public CameraMode cameraMode = CameraMode.Checkpoint;
 	private Vector3 originalPosition;
-
-	void Start () {
-		// Get the camera game object
-		camera = transform.GetChild(0).gameObject;
-		originalPosition = camera.transform.localPosition;
-	}
 	
 	void Update () {
-		if (XCI.GetButtonDown(XboxButton.Y)      ) ToggleCameraMode();
-		if (XCI.GetButton(XboxButton.RightBumper)) ZoomIn ();
-		if (XCI.GetButton(XboxButton.LeftBumper )) ZoomOut();
+		if (XCI.GetButtonDown(XboxButton.Y)) ToggleCameraMode();
+		if (XCI.GetButton(XboxButton.RightBumper)) ZoomIn();
+		if (XCI.GetButton(XboxButton.LeftBumper)) ZoomOut();
 
-		camera.transform.localPosition = Vector3.Lerp(
-			originalPosition*1.5f,
-			originalPosition*0.5f,
-			ZoomLevel
-		);
+		// camera.transform.localPosition = Vector3.Lerp(
+		// 	originalPosition*1.5f,
+		// 	originalPosition*0.5f,
+		// 	ZoomLevel
+		// );
+		transform.localScale = Mathf.Lerp(1.5f, 0.5f, ZoomLevel) * Vector3.one;
 
 		float angleBetween;
 		switch (cameraMode) {
 			case CameraMode.Checkpoint:
+			// Find the angle we need to turn to face the target
 			angleBetween = Vector3.SignedAngle(transform.forward, cameraTarget.transform.forward, Vector3.down);
+			// Rotate a small percentage of that angle
 			transform.Rotate(0, -angleBetween * Time.deltaTime * speed, 0, Space.World);
+			// Just making sure that the camera only rotates on the y axis.
 			transform.eulerAngles = new Vector3(
 				0, transform.eulerAngles.y, 0
 			);
 			break;
 			case CameraMode.Behind:
+			// Rotate towards the identity rotation
 			transform.localRotation = Quaternion.Slerp(
 				transform.localRotation,
 				Quaternion.identity,

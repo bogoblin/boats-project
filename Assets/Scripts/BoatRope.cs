@@ -63,4 +63,7 @@ public class BoatRope : MonoBehaviour {
 			line.SetPosition(i, segPosition);
 		}
 	}
+	void Update() {
+		FixedUpdate();
+	}
 }

@@ -64,6 +64,7 @@ public class Recorder : MonoBehaviour {
 	public void StopRecording() {
 		recording = false;
 		Debug.Log("stopped recording on frame "+frame.ToString());
+		Save();
 		// dump output to file or whatever
 	}
 
@@ -78,17 +79,17 @@ public class Recorder : MonoBehaviour {
 		string recordingName = "test";
 		string recordingString = recordingName+","+frame.ToString()+",";
 		for (int f=0; f<frame; f++) {
-			recordingString += position[frame].x.ToString()+",";
-			recordingString += position[frame].y.ToString()+",";
-			recordingString += position[frame].z.ToString()+",";
+			recordingString += position[f].x.ToString()+",";
+			recordingString += position[f].y.ToString()+",";
+			recordingString += position[f].z.ToString()+",";
 
-			recordingString += rotation[frame].x.ToString()+",";
-			recordingString += rotation[frame].y.ToString()+",";
-			recordingString += rotation[frame].z.ToString()+",";
-			recordingString += rotation[frame].w.ToString()+",";
+			recordingString += rotation[f].x.ToString()+",";
+			recordingString += rotation[f].y.ToString()+",";
+			recordingString += rotation[f].z.ToString()+",";
+			recordingString += rotation[f].w.ToString()+",";
 
-			recordingString += localSailAngle[frame].ToString()+",";
-			recordingString += localRudderAngle[frame].ToString()+",";
+			recordingString += localSailAngle[f].ToString()+",";
+			recordingString += localRudderAngle[f].ToString()+",";
 		}
 
 		PlayerPrefs.SetString("recording-"+recordingName, recordingString);
