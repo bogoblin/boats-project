@@ -1164,6 +1164,26 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 2120336332}
   m_Script: {fileID: 11500000, guid: 0461fa1c2d5f31442ada402ac2fa4ad8, type: 3}
+--- !u!1 &684464468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1711304968469640, guid: 415d71b12fba74142be89b996e1f5933,
+    type: 2}
+  m_PrefabInternal: {fileID: 2104708828}
+--- !u!114 &684464470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 684464468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b29adbb240a2ec4bb19dbb559164bfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerBoatPrefab: {fileID: 1185061235160532, guid: 875568c7ab765d64e85e194b454b91f4,
+    type: 2}
+  AiBoatPrefab: {fileID: 1795361513727868, guid: 531c020f664308b4095fa2e05996216a,
+    type: 2}
 --- !u!1 &717448247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,10 +1618,6 @@ MonoBehaviour:
   lapped: 1
   numberOfLaps: 2
   checkpoints: []
-  playerBoatPrefab: {fileID: 1185061235160532, guid: 875568c7ab765d64e85e194b454b91f4,
-    type: 2}
-  aiBoatPrefab: {fileID: 1795361513727868, guid: 531c020f664308b4095fa2e05996216a,
-    type: 2}
   numberOfAI: 0
 --- !u!4 &1161648360 stripped
 Transform:
@@ -2610,7 +2626,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684904585}
+      - m_Target: {fileID: 0}
         m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
@@ -2733,12 +2749,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1641245070}
   m_Mesh: {fileID: 4300002, guid: 9207bf1556ad1924f8ec473b530f1666, type: 3}
---- !u!114 &1684904585 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114464008577099206, guid: 415d71b12fba74142be89b996e1f5933,
-    type: 2}
-  m_PrefabInternal: {fileID: 2104708828}
-  m_Script: {fileID: 11500000, guid: 9b29adbb240a2ec4bb19dbb559164bfd, type: 3}
 --- !u!1 &1692183064
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,7 +3808,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684904585}
+      - m_Target: {fileID: 0}
         m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
@@ -3918,7 +3928,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114464008577099206, guid: 415d71b12fba74142be89b996e1f5933, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 415d71b12fba74142be89b996e1f5933, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1001 &2120336332

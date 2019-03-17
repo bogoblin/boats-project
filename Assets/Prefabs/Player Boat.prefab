@@ -1169,8 +1169,8 @@ Camera:
     height: 0.32
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 2.8
+  orthographic: 0
   orthographic size: 5
   m_Depth: 0.06
   m_CullingMask:
@@ -1893,7 +1893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385cac6bf6fe4294d8b949b82589b641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalRudderAngle: 0
   Ship: {fileID: 1185061235160532}
 --- !u!114 &114186991424143834
 MonoBehaviour:

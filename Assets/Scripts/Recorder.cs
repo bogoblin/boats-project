@@ -69,8 +69,28 @@ public class Recorder : MonoBehaviour {
 
 	public void PlayRecording() {
 		Destroy(gameObject);
-		GameObject playbackBoat = Instantiate(Manager.Instance.PlayerBoatPrefab, position[0], rotation[0]);
+		GameObject playbackBoat = Manager.InstantiatePlayerBoat(position[0], rotation[0]);
 		Playback playback = playbackBoat.AddComponent(typeof(Playback)) as Playback;
 		playback.StartPlayback(position, rotation, localSailAngle, localRudderAngle);
+	}
+
+	void Save() {
+		string recordingName = "test";
+		string recordingString = recordingName+","+frame.ToString()+",";
+		for (int f=0; f<frame; f++) {
+			recordingString += position[frame].x.ToString()+",";
+			recordingString += position[frame].y.ToString()+",";
+			recordingString += position[frame].z.ToString()+",";
+
+			recordingString += rotation[frame].x.ToString()+",";
+			recordingString += rotation[frame].y.ToString()+",";
+			recordingString += rotation[frame].z.ToString()+",";
+			recordingString += rotation[frame].w.ToString()+",";
+
+			recordingString += localSailAngle[frame].ToString()+",";
+			recordingString += localRudderAngle[frame].ToString()+",";
+		}
+
+		PlayerPrefs.SetString("recording-"+recordingName, recordingString);
 	}
 }
