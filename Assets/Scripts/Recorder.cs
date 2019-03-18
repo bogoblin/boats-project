@@ -87,8 +87,7 @@ public class Recorder : MonoBehaviour {
 	public void StopRecording() {
 		recording = false;
 		Debug.Log("stopped recording on frame "+frame.ToString());
-		Save();
-		// dump output to file or whatever
+		GetComponentInChildren<SaveReplayDialog>().ShowDialog(this);
 	}
 
 	public void PlayRecording() {
@@ -98,11 +97,15 @@ public class Recorder : MonoBehaviour {
 		playback.StartPlayback(position, rotation, localSailAngle, localRudderAngle);
 	}
 
-	void Save() {
-		string recordingName = "test";
+	public void Save(string recordingName) {
 		recordingString = recordingName+","+frame.ToString()+","+recordingString;
 
+		// Save this recording to playerprefs (IndexedDB in web)
 		PlayerPrefs.SetString("recording-"+recordingName, recordingString);
+
+		// Update the list of recordings by putting this recording at the end with a comma (separator)
+		PlayerPrefs.SetString("recordings", PlayerPrefs.GetString("recordings", "")+recordingName+",");
+		Debug.Log(recordingName + " replay saved");
 	}
 
 	public bool IsRecording() {
