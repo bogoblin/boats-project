@@ -711,7 +711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1541820323611368
 GameObject:
   m_ObjectHideFlags: 1
@@ -1174,6 +1174,24 @@ GameObject:
   - component: {fileID: 114231380968889114}
   m_Layer: 5
   m_Name: Dropdown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1948638641824376
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224992287269003824}
+  - component: {fileID: 222617043013253592}
+  - component: {fileID: 114810692281791458}
+  - component: {fileID: 114547093920988000}
+  m_Layer: 5
+  m_Name: Race Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3377,6 +3395,17 @@ MonoBehaviour:
   boatArea: 3
   sailBehavior: {fileID: 0}
   rudderBehavior: {fileID: 0}
+--- !u!114 &114547093920988000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948638641824376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d4ba1980c5ea4d92911ebb2ae9878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114558747250421042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3814,6 +3843,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de9072d83614ce4b9854048f6bfab7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114810692281791458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948638641824376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 2732524a48db56043a3fe6cdc23d6452, type: 3}
+    m_FontSize: 90
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 6
+    m_MaxSize: 90
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 0:00.00
 --- !u!114 &114856400374306644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9296,6 +9358,13 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305952232324242}
   m_CullTransparentMesh: 0
+--- !u!222 &222617043013253592
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948638641824376}
+  m_CullTransparentMesh: 0
 --- !u!222 &222678741528188376
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -9721,7 +9790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -297}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224308191334042432
@@ -10049,6 +10118,7 @@ RectTransform:
   - {fileID: 224850793962922010}
   - {fileID: 224226818658798702}
   - {fileID: 224305970180478408}
+  - {fileID: 224992287269003824}
   m_Father: {fileID: 4768785499455732}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10300,4 +10370,22 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -7.499939, y: -1.8499756}
   m_SizeDelta: {x: 409.95, y: 310.62}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224992287269003824
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948638641824376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224718735067491530}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 480.02, y: 481.9}
+  m_SizeDelta: {x: 960.04, y: 116.5}
   m_Pivot: {x: 0.5, y: 0.5}

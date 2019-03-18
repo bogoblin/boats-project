@@ -63,5 +63,9 @@ public class CheckpointRace : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		try {
+			checkpointInfos[boats[0]].Update();
+		}
+		catch (KeyNotFoundException) {}
 	}
 }

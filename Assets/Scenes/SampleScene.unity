@@ -594,16 +594,6 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224305970180478408, guid: 875568c7ab765d64e85e194b454b91f4,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224305970180478408, guid: 875568c7ab765d64e85e194b454b91f4,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 875568c7ab765d64e85e194b454b91f4, type: 2}
   m_IsPrefabAsset: 0
@@ -3679,7 +3669,7 @@ Prefab:
     - target: {fileID: 114888969407879180, guid: ea1fd25a512b18c42863b35758940ffe,
         type: 2}
       propertyPath: WindSpeed
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114888969407879180, guid: ea1fd25a512b18c42863b35758940ffe,
         type: 2}

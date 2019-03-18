@@ -14,9 +14,23 @@ public class CheckpointInfo {
     private float startTime = 0;
     private bool started = false;
 
+    /// <summary> The time elapsed in the race for this boat. This includes penalties. </summary>
+    private float timeElapsed {
+        get {
+            return ((Time.time + totalPenalty) - startTime);
+        }
+    }
+
+    /// <summary> The UI element that displays the elapsed time for the player's boat </summary>
+    RaceTime raceTime;
+
     public CheckpointInfo(BoatBehavior requiredBoat, CheckpointRace requiredRace) {
         boat = requiredBoat;
         race = requiredRace;
+        raceTime = boat.GetComponentInChildren<RaceTime>();
+    }
+    public void Update() {
+        if (raceTime) raceTime.SetTime(timeElapsed);
     }
     public bool Hit(int index) {
         if (index == checkpointIndex) {
@@ -25,7 +39,7 @@ public class CheckpointInfo {
                 startTime = Time.time;
             }
             // this means that it is the next checkpoint
-            DisplayRaceText(((Time.time + totalPenalty) - startTime).ToString(), Color.green);
+            DisplayRaceText(timeElapsed.ToString(), Color.green);
             if (checkpointIndex == 0 && currentLap == race.numberOfLaps) {
                 race.Finish(boat);
                 DisplayRaceText("Finished!", Color.white);
