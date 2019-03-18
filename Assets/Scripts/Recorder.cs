@@ -81,6 +81,9 @@ public class Recorder : MonoBehaviour {
 			if (frame > 0 && XCI.GetButtonDown(XboxButton.DPadDown)) {
 				PlayRecording();
 			}
+			if (XCI.GetButtonDown(XboxButton.DPadLeft)) {
+				GetComponentInChildren<LoadReplayDialog>().ShowDialog();
+			}
 		}
 	}
 
@@ -105,6 +108,7 @@ public class Recorder : MonoBehaviour {
 
 		// Update the list of recordings by putting this recording at the end with a comma (separator)
 		PlayerPrefs.SetString("recordings", PlayerPrefs.GetString("recordings", "")+recordingName+",");
+		Manager.listOfRecordings.Add(recordingName);
 		Debug.Log(recordingName + " replay saved");
 	}
 

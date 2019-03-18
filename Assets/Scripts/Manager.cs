@@ -15,6 +15,8 @@ public class Manager : MonoBehaviour {
 	public static Manager Instance {get {return _instance;}}
 	private static GameObject currentPlayerBoat;
 
+	public static List<string> listOfRecordings;
+
 	private void Awake() {
 		_playerBoatPrefab = PlayerBoatPrefab;
 		_aiBoatPrefab = AiBoatPrefab;
@@ -26,6 +28,10 @@ public class Manager : MonoBehaviour {
         }
 		DontDestroyOnLoad(transform.gameObject);
 		Time.timeScale = 1;
+
+		listOfRecordings = new List<string>(PlayerPrefs.GetString("recordings", "").Split(','));
+		listOfRecordings.Remove("");
+		Debug.Log(PlayerPrefs.GetString("recordings", ""));
     }
 
 	public static void Reset() {
@@ -50,5 +56,12 @@ public class Manager : MonoBehaviour {
 
 	public static GameObject InstantiateAiBoat(Vector3 position, Quaternion rotation) {
 		return Instantiate(_aiBoatPrefab, position, rotation);
+	}
+
+	public static void ShowReplay(int replayIndex) {
+		string replayName = listOfRecordings[replayIndex];
+		GameObject replayBoat = InstantiatePlayerBoat(Vector3.zero, Quaternion.identity);
+		Playback playback = replayBoat.AddComponent(typeof(Playback)) as Playback;
+		playback.LoadReplay(replayName);
 	}
 }

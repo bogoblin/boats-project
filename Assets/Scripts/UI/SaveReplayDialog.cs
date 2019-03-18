@@ -8,7 +8,7 @@ public class SaveReplayDialog : MonoBehaviour {
 	Recorder callbackRecorder;
 	string replayName = "";
 
-	float timeScaleWhenOpened;
+	float timeScaleWhenOpened = 1;
 
 	static Regex validReplayName = new Regex(@"^(\w|\s)$");
 
