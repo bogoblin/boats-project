@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour {
             _instance = this;
         }
 		DontDestroyOnLoad(transform.gameObject);
-		
+		Time.timeScale = 1;
     }
 
 	public static void Reset() {

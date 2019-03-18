@@ -37,6 +37,14 @@ public class Recorder : MonoBehaviour {
 		localRudderAngle = new List<float>();
 		wind = Weather.Instance.GetWindVector();
 		water = Weather.Instance.GetWaterVector();
+
+		recordingString += Weather.Instance.WindSpeed.ToString()+",";
+		recordingString += Weather.Instance.WindAngle.ToString()+",";
+		recordingString += Weather.Instance.WaterSpeed.ToString()+",";
+		recordingString += Weather.Instance.WaterAngle.ToString()+",";
+
+		string coursename = "thecourse";
+		recordingString += coursename+",";
 	}
 
 	void FixedUpdate() {
@@ -95,5 +103,9 @@ public class Recorder : MonoBehaviour {
 		recordingString = recordingName+","+frame.ToString()+","+recordingString;
 
 		PlayerPrefs.SetString("recording-"+recordingName, recordingString);
+	}
+
+	public bool IsRecording() {
+		return recording;
 	}
 }

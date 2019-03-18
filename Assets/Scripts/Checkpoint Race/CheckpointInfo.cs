@@ -52,6 +52,7 @@ public class CheckpointInfo {
     }
 
     void DisplayRaceText(string text, Color color) {
-        boat.GetComponentInChildren<RaceText>().SetText(text, color);
+        RaceText raceText = boat.GetComponentInChildren<RaceText>();
+        if (raceText) boat.GetComponentInChildren<RaceText>().SetText(text, color);
     }
 }

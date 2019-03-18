@@ -23,14 +23,19 @@ public class Playback : MonoBehaviour {
 
 	public void LoadReplay(string replayName) {
 		replayName = "recording-"+replayName;
-		Debug.Log(PlayerPrefs.GetString(replayName, ""));
 		string[] raw = PlayerPrefs.GetString(replayName, "").Split(',');
 		int numOfFrames = int.Parse(raw[1]);
 		List<Vector3> positionL = new List<Vector3>();
 		List<Quaternion> rotationL = new List<Quaternion>();
 		List<float> localSailAngleL = new List<float>();
 		List<float> localRudderAngleL = new List<float>();
-		int c = 2; // the cursor
+
+		Weather.Instance.WindSpeed = float.Parse(raw[2]);
+		Weather.Instance.WindAngle = float.Parse(raw[3]);
+		Weather.Instance.WaterSpeed = float.Parse(raw[4]);
+		Weather.Instance.WaterAngle = float.Parse(raw[5]);
+		string coursename = raw[6];
+		int c = 7; // the cursor
 		for (int f=0; f<numOfFrames; f++) {
 			positionL.Add(new Vector3(
 				float.Parse(raw[c]), 
@@ -53,7 +58,6 @@ public class Playback : MonoBehaviour {
 	public void StartPlayback(List<Vector3> positionL, List<Quaternion> rotationL, 
 			List<float> localSailAngleL, List<float> localRudderAngleL) 
 	{
-		playing = true;
 		frame = 0;
 		boat = GetComponent<BoatBehavior>();
 		sail = GetComponent<BoatSail>();
@@ -62,17 +66,15 @@ public class Playback : MonoBehaviour {
 		rotation = rotationL;
 		localSailAngle = localSailAngleL;
 		localRudderAngle = localRudderAngleL;
-
+		ResumePlayback();
 	}
 
 	void FixedUpdate() {
+		ApplyRecordedAttributes();
+
 		if (!playing) return;
 
-		ApplyRecordedAttributes();
 		frame++;
-		if (frame == position.Count) {
-			StopPlayback();
-		}
 	}
 
 	void Update() {
@@ -85,8 +87,8 @@ public class Playback : MonoBehaviour {
 				ResumePlayback();
 			}
 		}
-		int framesToStep = Mathf.FloorToInt(XCI.GetAxis(XboxAxis.LeftStickX)*2.5f);
-		Step(framesToStep);
+		int framesToStep = (int)Mathf.Sign(XCI.GetAxis(XboxAxis.LeftStickX)) * Mathf.FloorToInt(Mathf.Abs(XCI.GetAxis(XboxAxis.LeftStickX)*2.5f));
+		//Step(framesToStep);
 		if (XCI.GetButtonDown(XboxButton.DPadLeft)) {
 			LoadReplay("test");
 		}
@@ -95,6 +97,7 @@ public class Playback : MonoBehaviour {
 	void ApplyRecordedAttributes() {
 		if (frame >= position.Count) {
 			frame = position.Count - 1;
+			StopPlayback();
 		}
 		else if (frame < 0) {
 			frame = 0;
@@ -128,5 +131,8 @@ public class Playback : MonoBehaviour {
 	public void Seek(int frameToSeek) {
 		frame = frameToSeek;
 		ApplyRecordedAttributes();
+	}
+	public bool IsPlaying() {
+		return playing;
 	}
 }
