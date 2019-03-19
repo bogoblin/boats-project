@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XboxCtrlrInput;
 
 public class Recorder : MonoBehaviour {
@@ -43,7 +44,7 @@ public class Recorder : MonoBehaviour {
 		recordingString += Weather.Instance.WaterSpeed.ToString()+",";
 		recordingString += Weather.Instance.WaterAngle.ToString()+",";
 
-		string coursename = "thecourse";
+		string coursename = SceneManager.GetActiveScene().name;
 		recordingString += coursename+",";
 	}
 

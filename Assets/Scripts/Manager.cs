@@ -62,6 +62,8 @@ public class Manager : MonoBehaviour {
 
 	public static void ShowReplay(int replayIndex) {
 		string replayName = listOfRecordings[replayIndex];
+		string courseName = PlayerPrefs.GetString(replayName, "").Split(',')[0];
+		SceneManager.LoadScene(courseName);
 		GameObject replayBoat = InstantiatePlayerBoat(Vector3.zero, Quaternion.identity);
 		Playback playback = replayBoat.AddComponent(typeof(Playback)) as Playback;
 		playback.LoadReplay(replayName);
