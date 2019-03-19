@@ -17,6 +17,8 @@ public class Manager : MonoBehaviour {
 
 	public static List<string> listOfRecordings;
 
+	public static int numberOfAi = 0;
+
 	private void Awake() {
 		_playerBoatPrefab = PlayerBoatPrefab;
 		_aiBoatPrefab = AiBoatPrefab;
@@ -63,5 +65,20 @@ public class Manager : MonoBehaviour {
 		GameObject replayBoat = InstantiatePlayerBoat(Vector3.zero, Quaternion.identity);
 		Playback playback = replayBoat.AddComponent(typeof(Playback)) as Playback;
 		playback.LoadReplay(replayName);
+	}
+
+	public static void TimeTrial(string course) {
+		numberOfAi = 0;
+		SceneManager.LoadScene(course);
+	}
+
+	public static void Race(string course) {
+		numberOfAi = 3;
+		SceneManager.LoadScene(course);
+	}
+
+	public static void FreeSail() {
+		numberOfAi = 0;
+		SceneManager.LoadScene("FreeSail");
 	}
 }

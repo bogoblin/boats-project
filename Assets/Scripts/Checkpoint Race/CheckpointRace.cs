@@ -15,7 +15,6 @@ public class CheckpointRace : MonoBehaviour {
 	[HideInInspector]
 	public Checkpoint[] checkpoints;
 	private BoatBehavior[] boats;
-	public int numberOfAI = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +25,8 @@ public class CheckpointRace : MonoBehaviour {
 			checkpoints[i].SetIndex(i);
 		}
 		checkpoints[0].Show();
+
+		int numberOfAI = Manager.numberOfAi;
 		
 		boats = new BoatBehavior[numberOfAI+1];
 		boats[0] = Manager.InstantiatePlayerBoat(Vector3.zero, Quaternion.AngleAxis(90, Vector3.up)).GetComponent<BoatBehavior>();

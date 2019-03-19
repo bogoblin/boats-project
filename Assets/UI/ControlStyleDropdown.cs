@@ -20,6 +20,7 @@ public class ControlStyleDropdown : Dropdown {
 	}
 	
 	public void OnValueChanged (int newValue) {
+		this.value = newValue;
 		Debug.Log("adsfasdf");
 		for (int i=0; i<Tooltips.Length; i++) {
 			// Show the tooltip if it is the correct one to show, otherwise hide it
