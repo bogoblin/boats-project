@@ -5,13 +5,18 @@ using XboxCtrlrInput;
 
 public class PauseMenu : MonoBehaviour {
 
+	float timeScaleWhenPaused = 1;
+
 	void Hide() {
 		showing = false;
 		transform.GetChild(0).gameObject.SetActive(false);
+		Time.timeScale = timeScaleWhenPaused;
 	}
 	void Show() {
 		showing = true;
 		transform.GetChild(0).gameObject.SetActive(true);
+		timeScaleWhenPaused = Time.timeScale;
+		Time.timeScale = 0;
 	}
 	void Toggle() {
 		if (showing) Hide();
