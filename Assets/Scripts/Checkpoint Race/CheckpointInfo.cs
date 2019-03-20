@@ -21,16 +21,20 @@ public class CheckpointInfo {
         }
     }
 
-    /// <summary> The UI element that displays the elapsed time for the player's boat </summary>
-    RaceTime raceTime;
+    /// <summary> The UI elements that display the elapsed time for the player's boat </summary>
+    RaceTime[] raceTimes;
 
     public CheckpointInfo(BoatBehavior requiredBoat, CheckpointRace requiredRace) {
         boat = requiredBoat;
         race = requiredRace;
-        raceTime = boat.GetComponentInChildren<RaceTime>();
     }
     public void Update() {
-        if (raceTime) raceTime.SetTime(timeElapsed);
+        raceTimes = boat.GetComponentsInChildren<RaceTime>();
+        if (raceTimes.Length > 0) {
+            foreach(RaceTime raceTime in raceTimes) {
+                raceTime.SetTime(timeElapsed);
+            }
+        }
     }
     public bool Hit(int index) {
         if (index == checkpointIndex) {
@@ -40,15 +44,22 @@ public class CheckpointInfo {
             }
             // this means that it is the next checkpoint
             DisplayRaceText(timeElapsed.ToString(), Color.green);
-            if (checkpointIndex == 0 && currentLap == race.numberOfLaps) {
-                race.Finish(boat);
-                DisplayRaceText("Finished!", Color.white);
-                return true;
-            }
-            checkpointIndex++;
-            if (checkpointIndex == race.checkpoints.Length) {
-                currentLap++;
-                checkpointIndex = 0;
+            if (race.lapped) {
+                if (checkpointIndex == 0 && currentLap == race.numberOfLaps) {
+                    race.Finish(boat);
+                    return false;
+                }
+                checkpointIndex++;
+                if (checkpointIndex == race.checkpoints.Length) {
+                    currentLap++;
+                    checkpointIndex = 0;
+                }
+            } else {
+                checkpointIndex++;
+                if (checkpointIndex == race.checkpoints.Length) {
+                    race.Finish(boat);
+                    return false;
+                }
             }
             return true;
         }

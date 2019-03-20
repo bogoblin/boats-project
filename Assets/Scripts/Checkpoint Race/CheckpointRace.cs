@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CheckpointRace : MonoBehaviour {
 
 	public bool lapped = false;
 	public int numberOfLaps = 3;
+	int playerPlace;
 	
 	[HideInInspector]
 	public Dictionary<BoatBehavior, CheckpointInfo> checkpointInfos;
@@ -18,6 +20,7 @@ public class CheckpointRace : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		playerPlace = 1; // What position the player is in - we update when another boat finishes.
 		checkpoints = GetComponentsInChildren<Checkpoint>();
 		checkpointInfos = new Dictionary<BoatBehavior, CheckpointInfo>();
 		for (int i=0; i<checkpoints.Length; i++) {
@@ -59,7 +62,11 @@ public class CheckpointRace : MonoBehaviour {
 	}
 
 	public void Finish(BoatBehavior boat) {
-		Debug.Log("finsihed!");
+		if (boat == boats[0]) { // is player boat
+			boat.gameObject.GetComponentInChildren<FinishedPanel>().Show();
+		} else {
+			playerPlace++;
+		}
 	}
 	
 	// Update is called once per frame

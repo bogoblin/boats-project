@@ -43,6 +43,7 @@ public class Manager : MonoBehaviour {
 		SceneManager.LoadScene("SampleScene");
 	}
 	public static void MainMenu() {
+		Time.timeScale = 1;
 		SceneManager.LoadScene("MainMenu");
 	}
 
@@ -70,16 +71,19 @@ public class Manager : MonoBehaviour {
 	}
 
 	public static void TimeTrial(string course) {
+		Time.timeScale = 1;
 		numberOfAi = 0;
 		SceneManager.LoadScene(course);
 	}
 
 	public static void Race(string course) {
+		Time.timeScale = 1;
 		numberOfAi = 3;
 		SceneManager.LoadScene(course);
 	}
 
 	public static void FreeSail() {
+		Time.timeScale = 1;
 		numberOfAi = 0;
 		SceneManager.LoadScene("FreeSail");
 	}

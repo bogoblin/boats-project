@@ -16,7 +16,7 @@ public class Checkpoint : MonoBehaviour {
 		}
 	}
 
-	void Start() {
+	void Awake() {
 		Hide();
 	}
 

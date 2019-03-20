@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CourseDropdown : Dropdown {
 
-	public static string[] Courses = {"P-Course"};
+	public static string[] Courses = {"P-Course", "Tacking Practice"};
 
 	void Start () {
 		this.ClearOptions();
