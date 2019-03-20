@@ -13,4 +13,7 @@ public class MainMenu : MonoBehaviour {
 	public void FreeSail() {
 		Manager.FreeSail();
 	}
+	public void DeleteAllRecordings() {
+		Manager.DeleteAllRecordings();
+	}
 }

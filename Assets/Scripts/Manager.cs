@@ -97,4 +97,11 @@ public class Manager : MonoBehaviour {
 		numberOfAi = 0;
 		SceneManager.LoadScene("Free Sail");
 	}
+
+	public static void DeleteAllRecordings() {
+		foreach(string recordingName in listOfRecordings) {
+			PlayerPrefs.DeleteKey("recording-"+recordingName);
+		}
+		PlayerPrefs.DeleteKey("recordings");
+	}
 }
