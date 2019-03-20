@@ -9,19 +9,17 @@ public class LoadReplayDialog : MonoBehaviour {
 	float timeScaleWhenOpened;
 	bool showing = false;
 	void Start () {
-		dropdown = GetComponentInChildren<Dropdown>();
-		dropdown.ClearOptions();
-		dropdown.AddOptions(Manager.listOfRecordings);
-
-
-		timeScaleWhenOpened = Time.timeScale;
 		CloseDialog();
 	}
 	
 	public void ShowDialog() {
 		if (showing) return;
-
+		
 		transform.GetChild(0).gameObject.SetActive(true);
+		dropdown = GetComponentInChildren<Dropdown>();
+		dropdown.ClearOptions();
+		dropdown.AddOptions(Manager.listOfRecordings);
+
 		// Keep track of the timescale, just in case it isn't just 1
 		timeScaleWhenOpened = Time.timeScale;
 		// Pause the game when this dialog box is open

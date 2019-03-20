@@ -11,7 +11,7 @@ public class Checkpoint : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		BoatBehavior boat = other.GetComponentInParent<BoatBehavior>();
-		if (boat != null) {
+		if (boat != null && race != null) {
 			race.HitCheckpoint(boat, index);
 		}
 	}

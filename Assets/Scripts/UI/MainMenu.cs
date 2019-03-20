@@ -10,4 +10,7 @@ public class MainMenu : MonoBehaviour {
 		submenus[submenuIndex].SetActive(true);
 		gameObject.SetActive(false);
 	}
+	public void FreeSail() {
+		Manager.FreeSail();
+	}
 }

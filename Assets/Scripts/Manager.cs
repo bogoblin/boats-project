@@ -85,6 +85,6 @@ public class Manager : MonoBehaviour {
 	public static void FreeSail() {
 		Time.timeScale = 1;
 		numberOfAi = 0;
-		SceneManager.LoadScene("FreeSail");
+		SceneManager.LoadScene("Free Sail");
 	}
 }
