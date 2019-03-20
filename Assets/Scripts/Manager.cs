@@ -33,7 +33,6 @@ public class Manager : MonoBehaviour {
 
 		listOfRecordings = new List<string>(PlayerPrefs.GetString("recordings", "").Split(','));
 		listOfRecordings.Remove("");
-		Debug.Log(PlayerPrefs.GetString("recordings", ""));
     }
 
 	public static void Reset() {
@@ -44,11 +43,23 @@ public class Manager : MonoBehaviour {
 	}
 	public static void MainMenu() {
 		Time.timeScale = 1;
+		isReplay = false;
 		SceneManager.LoadScene("MainMenu");
 	}
 
 	// We make sure here that there is only ever one player boat
+	static bool isReplay = false;
+	static int currentReplayIndex;
 	public static GameObject InstantiatePlayerBoat(Vector3 position, Quaternion rotation) {
+		if (isReplay) {
+			Destroy(currentPlayerBoat);
+			string replayName = listOfRecordings[currentReplayIndex];
+			currentPlayerBoat = Instantiate(_playerBoatPrefab, position, rotation);
+			Playback playback = currentPlayerBoat.AddComponent(typeof(Playback)) as Playback;
+			playback.LoadReplay(replayName);
+			return currentPlayerBoat;
+		}
+		// else
 		Destroy(currentPlayerBoat);
 		currentPlayerBoat = Instantiate(_playerBoatPrefab, position, rotation);
 		return currentPlayerBoat;
@@ -62,12 +73,11 @@ public class Manager : MonoBehaviour {
 	}
 
 	public static void ShowReplay(int replayIndex) {
+		currentReplayIndex = replayIndex;
 		string replayName = listOfRecordings[replayIndex];
-		string courseName = PlayerPrefs.GetString(replayName, "").Split(',')[0];
+		string courseName = PlayerPrefs.GetString("recording-"+replayName, "").Split(',')[6];
+		isReplay = true;
 		SceneManager.LoadScene(courseName);
-		GameObject replayBoat = InstantiatePlayerBoat(Vector3.zero, Quaternion.identity);
-		Playback playback = replayBoat.AddComponent(typeof(Playback)) as Playback;
-		playback.LoadReplay(replayName);
 	}
 
 	public static void TimeTrial(string course) {

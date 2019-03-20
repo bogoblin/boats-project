@@ -41,9 +41,11 @@ public class CheckpointInfo {
             if (!started) {
                 started = true;
                 startTime = Time.time;
+                DisplayRaceText("Race started!", Color.black);
+            } else {
+                DisplayRaceText(timeElapsed.ToString("F2")+"s", Color.green);
             }
             // this means that it is the next checkpoint
-            DisplayRaceText(timeElapsed.ToString(), Color.green);
             if (race.lapped) {
                 if (checkpointIndex == 0 && currentLap == race.numberOfLaps) {
                     race.Finish(boat);

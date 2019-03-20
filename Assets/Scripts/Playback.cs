@@ -87,11 +87,11 @@ public class Playback : MonoBehaviour {
 				ResumePlayback();
 			}
 		}
-		int framesToStep = (int)Mathf.Sign(XCI.GetAxis(XboxAxis.LeftStickX)) * Mathf.FloorToInt(Mathf.Abs(XCI.GetAxis(XboxAxis.LeftStickX)*2.5f));
-		//Step(framesToStep);
 		if (XCI.GetButtonDown(XboxButton.DPadLeft)) {
-			LoadReplay("test");
+			GetComponentInChildren<LoadReplayDialog>().ShowDialog();
 		}
+		int framesToStep = Mathf.RoundToInt(XCI.GetAxis(XboxAxis.LeftStickX)*2.5f);
+		Step(framesToStep);
 	}
 
 	void ApplyRecordedAttributes() {
